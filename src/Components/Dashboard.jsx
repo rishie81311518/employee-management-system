@@ -1,13 +1,17 @@
 import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from "chart.js";
 import React, { useState } from "react";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import { Bar } from "react-chartjs-2";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import img2 from '../assets/client-2.png';
 import img4 from '../assets/employee.png';
 import img1 from '../assets/employees.jpeg';
 import img3 from '../assets/task.png';
-import { Bar } from "react-chartjs-2";
-import { BarElement,  CategoryScale,Chart as ChartJS,Legend, LinearScale,Title, Tooltip } from "chart.js";
 ChartJS.register(CategoryScale, LinearScale, BarElement,Title,Tooltip,Legend);
 
 
@@ -584,12 +588,15 @@ const [clientsData, setClientsData] = useState([
                 Maintain Status
                 </button>
                 {/* Action Button */}
-                <button
-                className="btn btn-info mx-2"
-                onClick={() => handleClientAction(client,"Edit/Delete")}
-                >
-                Action
-                </button>
+                <ButtonGroup vertical> </ButtonGroup>
+                <DropdownButton
+        as={ButtonGroup}
+        title="Action"
+        id="bg-vertical-dropdown-1"
+      >
+        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+        <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
+      </DropdownButton>
             </div>
             ))}
          </div>
@@ -603,17 +610,8 @@ const [clientsData, setClientsData] = useState([
                 <p>Open Tasks: {project.openTasks}</p>
                 <p>Status: {project.status}</p>
                 <p>Projects Completed: {project.projectsCompleted}</p>
-                <div className="progress">
-                <div
-                    className="progress-bar"
-                    role="progressbar"
-                    style={{ width: `${project.progress}%` }}
-                    aria-valuenow={project.progress}
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                >
-                </div>
-                </div>
+                
+                
                 {/* Maintain Status Button */}
                 <button
                 className="btn btn-info mx-2"
@@ -622,12 +620,15 @@ const [clientsData, setClientsData] = useState([
                 Maintain Status
                 </button>
                 {/* Action Button */}
-                <button
-                className="btn btn-warning"
-                onClick={() => handleProjectAction(project, "Edit/Delete")}
-                >
-                Action
-                </button>
+                <ButtonGroup vertical> </ButtonGroup>
+                <DropdownButton
+        as={ButtonGroup}
+        title="Action"
+        id="bg-vertical-dropdown-1"
+      >
+        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+        <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
+      </DropdownButton>
             </div>
             ))}
             </div>

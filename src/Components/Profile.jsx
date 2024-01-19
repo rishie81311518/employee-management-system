@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import Calendar from 'react-calendar'; // Make sure to install this library
+import Calendar from 'react-calendar';
+
+
 
 const EducationCard = ({ education, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -29,7 +31,7 @@ const EducationCard = ({ education, onEdit }) => {
   };
 
   return (
-    <div className="card mt-3">
+    <div className="card mt-3" style={{ width: '40rem', height: '31rem' }} >
       <div className="card-header">
         <h5 className="card-title">Educational Information</h5>
       </div>
@@ -327,7 +329,7 @@ const BankInformationCard = ({ bankInfo, onEdit }) => {
   };
 
   return (
-    <div className="card mt-3" >
+    <div className="card mt-3" style={{ width: '40rem', height: '19rem' }}  >
       <div className="card-header">
         <h5 className="card-title">Bank Information</h5>
       </div>
@@ -453,7 +455,7 @@ const FamilyInformationCard = ({ familyInfo, onEdit, onDelete }) => {
     };
 
     return (
-        <div className="card mt-2">
+        <div className="card mt-2" style={{ width: '40rem', height: '26.5rem' }}  >
           <div className="card-header">
             <h5 className="card-title">Family Information</h5>
           </div>
@@ -875,7 +877,7 @@ const FamilyInformationCard = ({ familyInfo, onEdit, onDelete }) => {
             };
           
             return (
-              <div className="card mt-2" >
+              <div className="card mt-2">
                 <div className="card-header">
                   <h5 className="card-title">{employeeInfo.name}</h5>
                   <h6 className="card-subtitle mb-2 text-muted">{employeeInfo.team}</h6>
@@ -1029,6 +1031,7 @@ const FamilyInformationCard = ({ familyInfo, onEdit, onDelete }) => {
                     <p className="card-text">Address: {employeeInfo.address}</p>
                     <p className="card-text">Gender: {employeeInfo.gender}</p>
                     <p className="card-text">Reports To: {employeeInfo.reportsTo}</p>
+                   
                     <button
                         type="button"
                         className="btn btn-warning me-2"
@@ -1036,6 +1039,8 @@ const FamilyInformationCard = ({ familyInfo, onEdit, onDelete }) => {
                       >
                         Edit
                       </button>
+                   
+                    
                       <button
                         type="button"
                         className="btn btn-info me-2"
@@ -1171,23 +1176,42 @@ const Profile = () => {
   
 
   return (
+    
     <div className="container mt-5">
       <h2>Profile</h2>
-      <EmployeeCard employeeInfo={employeeInfo} onEdit={handleEmployeeEdit} />
+      <div className='row'>
+        <div className='col-md-6 mb-4'>
+        <EmployeeCard employeeInfo={employeeInfo} onEdit={handleEmployeeEdit} />
+        </div>
+      <div className='col-md-6 mb-4 '>
       <EducationCard education={education} onEdit={handleEducationEdit} />
+      </div>
+      <div className='col-md-6 mb-4'>
       <ExperienceCard experience={experience} onEdit={handleExperienceEdit} />
-      <BankInformationCard bankInfo={bankInfo} onEdit={handleBankInfoEdit} />
-      <FamilyInformationCard
+      </div>
+    <div className='col-md-6 mb-4'>
+    <BankInformationCard bankInfo={bankInfo} onEdit={handleBankInfoEdit} />
+      </div>
+<div className='col-md-6 mb-4'>
+<FamilyInformationCard
         familyInfo={familyInfo}
         onEdit={handleFamilyInfoEdit}
         onDelete={() => setFamilyInfo({})}
     />
-     <PersonalInformationCard personalInfo={personalInfo} onEdit={handlePersonalInfoEdit} />
-     <EmergencyCard emergencyInfo={emergencyInfo} onEdit={handleEmergencyInfoEdit} />
-     
+</div>
+<div className='col-md-6 mb-4'>
+<PersonalInformationCard personalInfo={personalInfo} onEdit={handlePersonalInfoEdit} />
+</div>
+<div className='col-md-5'>
+<EmergencyCard emergencyInfo={emergencyInfo} onEdit={handleEmergencyInfoEdit} />
+</div>
+    
+
       {/* Add other profile information or components here */}
     </div>
-  );
+    </div>
+
+);
 };
 
 export default Profile;
