@@ -62,19 +62,71 @@ const cardsData = [
     },
 };
 
-const [sliderValue, setSliderValue] = useState(50);
 
-  const clientsData = [
-    { name: "John Doe", email: "john.doe@example.com", status: "Active", action: "View" },
-    { name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive", action: "Edit" },
+const [clientsData, setClientsData] = useState([
+    { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active", action: "Edit/Delete"  },
+    { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive",action: "Edit/Delete"  },
     // Add more client data as needed
-  ];
+  ]);
 
-  const recentProjectsData = [
-    { projectName: "Project Alpha", projectStatus: "In Progress", action: "Details" },
-    { projectName: "Project Beta", projectStatus: "Completed", action: "Details" },
+  // Project Data
+  const [recentProjectsData, setRecentProjectsData] = useState([
+    { id: 1, projectName: "Project Alpha", openTasks: 5, projectsCompleted: 3, progress: 60, action: "Edit/Delete"  },
+    { id: 2, projectName: "Project Beta", openTasks: 2, projectsCompleted: 7, progress: 80, action: "Edit/Delete"  },
     // Add more recent project data as needed
-  ];
+  ]);
+
+  // Handle Maintain Status for Clients
+  const handleMaintain = (client) => {
+    const updatedClientsData = clientsData.map((c) =>
+      c.id === client.id ? { ...c, status: c.status === "Active" ? "Inactive" : "Active" } : c
+    );
+    setClientsData(updatedClientsData);
+  };
+
+  const handleClientAction = (client, action) => {
+    // Find the index of the client in the array
+    const clientIndex = clientsData.findIndex((c) => c.id === client.id);
+  
+    if (action === "edit") {
+      // Implement logic for editing a client
+      console.log(`Editing client: ${client.name}`);
+      // You can open a modal or navigate to an edit page, etc.
+    } else if (action === "delete") {
+      // Implement logic for deleting a client
+      const updatedClientsData = [...clientsData];
+      updatedClientsData.splice(clientIndex, 1); // Remove the client at the found index
+      setClientsData(updatedClientsData);
+      console.log(`Deleting client: ${client.name}`);
+    } else {
+      console.warn(`Unsupported action: ${action}`);
+    }
+  };
+  
+
+  // Handle Maintain Status for Projects
+  const handleMaintainProject = (project) => {
+    const updatedProjectsData = recentProjectsData.map((p) =>
+      p.id === project.id ? { ...p, status: p.status === "Active" ? "Inactive" : "Active" } : p
+    );
+    setRecentProjectsData(updatedProjectsData);
+  };
+
+  // Handle Project Action (Details)
+  const handleProjectAction = (project, action) => {
+    // Implement your logic for project details here
+    console.log(`Viewing details for project ${project.action}`);
+  };
+
+  const [invoiceData, setInvoiceData] = useState({
+    invoiceId: "",
+    client: "",
+    dueDate: "",
+    total: "",
+    status: "",
+  });
+
+  
 
   return (
     <div className="container-fluid">
@@ -110,14 +162,14 @@ const [sliderValue, setSliderValue] = useState(50);
                     Manage Employees
                   </span>
                 </Link>
-              </li>
-              <li className="w-100">
+            </li>
+            <li className="w-100">
                 <Link
-                  to="/dashboard/category"
-                  className="nav-link px-0 align-middle text-white"
+                to="/dashboard/category"
+                className="nav-link px-0 align-middle text-white"
                 >
-                  <i className="fs-4 bi-columns ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Category</span>
+                <i className="fs-4 bi-columns ms-2"></i>
+                <span className="ms-2 d-none d-sm-inline">Category</span>
                 </Link>
               </li>
               <li className="w-100">
@@ -143,17 +195,17 @@ const [sliderValue, setSliderValue] = useState(50);
 
         <div className="col p-0 m-0">
             <div className="p-2 d-flex justify-content-center shadow">
-                <h4>Employee Dashboard System</h4>
+                <h4>Admin Dashboard </h4>
             </div>
             <Outlet />
 
             {/* Cards Section */}
             < div className="row mt-4">
         {cardsData.map((card, index) => (
-          <div key={index} className="col-md-3">
+        <div key={index} className="col-md-3">
             <div className="card">
-              <img src={card.imageSrc} className="card-img-top" height={300}  alt={`${card.title} Image`} />
-              <div className="card-body">
+            <img src={card.imageSrc} className="card-img-top" height={300}  alt={`${card.title} Image`} />
+            <div className="card-body">
                 <h5 className="card-title">{card.title}</h5>
                 <p className="card-text">{card.content}</p>
             </div>
@@ -161,13 +213,92 @@ const [sliderValue, setSliderValue] = useState(50);
         </div>
         ))}
 
+
+        {/* Statictics Card Section */}
+<div className="col-md-12 mt-4">
+  <h5>Task Statistics</h5>
+  <div className="card">
+    <div className="card-body">
+      <form>
+        <div className="row">
+          {/* Invoice ID */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="invoiceId">Total Tasks</label>
+            <input
+              type="text"
+              className="form-control"
+              id="invoiceId"
+              placeholder="Enter total tasks"
+            />
+          </div>
+
+          {/* Client */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="client">Overdue Tasks</label>
+            <input
+              type="text"
+              className="form-control"
+              id="client"
+              placeholder="tasks due"
+            />
+          </div>
+
+          {/* Due Date */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="dueDate">Completed Tasks</label>
+            <input
+              type="text"
+              className="form-control"
+              id="dueDate"
+              placeholder="Enter number of completed tasks"
+            />
+          </div>
+
+          {/* Total */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="total">In Progress Tasks</label>
+            <input
+              type="text"
+              className="form-control"
+              id="total"
+              placeholder="Enter in progress tasks"
+            />
+        </div>
+
+          {/* Status */}
+        <div className="col-md-3 mb-3">
+            <label htmlFor="status">On Hold Tasks</label>
+            <input
+            type="text"
+            className="form-control"
+            id="status"
+            placeholder="Enter On hold tasks"
+            />
+        </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="row mt-3">
+          <div className="col-md-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
         {/* Bar Chart Section */}
-        <div className="mt-3" style={{ width: '700px', height: '700px' }}>
+        <div className="mt-1" style={{ width: '1200px', height: '1200px', marginBottom: '10px' }}>
             <Bar data={barChartData} options={barChartOptions} />
         </div>
 
-          {/*  Cards Section */}
-          <div className="row mt-3">
+ 
+
+ {/*  Cards Section */}
+ <div className="row mt-2">
             <div className="col-md-3">
               <div className="card">
                 <div className="card-body">
@@ -177,7 +308,6 @@ const [sliderValue, setSliderValue] = useState(50);
               </div>
             </div>
             <div className="col-md-3">
-                <div className="col-md-3"/>
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Earnings</h5>
@@ -186,7 +316,6 @@ const [sliderValue, setSliderValue] = useState(50);
               </div>
             </div>
             <div className="col-md-3">
-            <div className="col-md-3"/>
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Expenses</h5>
@@ -195,7 +324,6 @@ const [sliderValue, setSliderValue] = useState(50);
               </div>
             </div>
             <div className="col-md-3">
-            <div className="col-md-3"/>
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Profit</h5>
@@ -205,43 +333,307 @@ const [sliderValue, setSliderValue] = useState(50);
             </div>
           </div>
 
- {/* client and his projects Section */}
- <div className="row mt-4">
-            <div className="col-md-6">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">Clients</h5>
-                  <div className="row">
-                    {clientsData.map((client, index) => (
-                      <div key={index} className="col">
-                        <p>Name: {client.name}</p>
-                        <p>Email: {client.email}</p>
-                        <p>Status: {client.status}</p>
-                        <p>Action: {client.action}</p>
-                      </div>
-                    ))}
-                  </div>
+{/* Invoices Card Section */}
+<div className="col-md-12 mt-4">
+  <h5>Invoices</h5>
+  <div className="card">
+    <div className="card-body">
+      <form>
+        <div className="row">
+          {/* Invoice ID */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="invoiceId">Invoice ID</label>
+            <input
+              type="text"
+              className="form-control"
+              id="invoiceId"
+              placeholder="Enter Invoice ID"
+            />
+          </div>
+
+          {/* Client */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="client">Client</label>
+            <input
+              type="text"
+              className="form-control"
+              id="client"
+              placeholder="Enter Client"
+            />
+          </div>
+
+          {/* Due Date */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="dueDate">Due Date</label>
+            <input
+              type="text"
+              className="form-control"
+              id="dueDate"
+              placeholder="Enter Due Date"
+            />
+          </div>
+
+          {/* Total */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="total">Total</label>
+            <input
+              type="text"
+              className="form-control"
+              id="total"
+              placeholder="Enter Total"
+            />
+        </div>
+
+          {/* Status */}
+        <div className="col-md-3 mb-3">
+            <label htmlFor="status">Status</label>
+            <input
+            type="text"
+            className="form-control"
+            id="status"
+            placeholder="Enter Status"
+            />
+        </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="row mt-3">
+          <div className="col-md-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{/* Payments Card Section */}
+<div className="col-md-12 mt-4">
+  <h5>Payments</h5>
+  <div className="card">
+    <div className="card-body">
+      <form>
+        <div className="row">
+          {/* Invoice ID */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="invoiceId">Invoice ID</label>
+            <input
+              type="text"
+              className="form-control"
+              id="invoiceId"
+              placeholder="Enter Invoice ID"
+            />
+          </div>
+
+          {/* Client */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="client">Client</label>
+            <input
+              type="text"
+              className="form-control"
+              id="client"
+              placeholder="Enter Client"
+            />
+          </div>
+
+          {/* Due Date */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="dueDate">Payment Type</label>
+            <input
+              type="text"
+              className="form-control"
+              id="dueDate"
+              placeholder="Enter the payment type "
+            />
+          </div>
+
+          {/* Total */}
+          <div className="col-md-3 mb-3">
+            <label htmlFor="total">Paid Date</label>
+            <input
+              type="text"
+              className="form-control"
+              id="total"
+              placeholder="Enter paid date"
+            />
+        </div>
+
+          {/* Status */}
+        <div className="col-md-3 mb-3">
+            <label htmlFor="status">Paid Amount</label>
+            <input
+            type="text"
+            className="form-control"
+            id="status"
+            placeholder="Enter amount paid"
+            />
+        </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="row mt-3">
+          <div className="col-md-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+{/* Statistics Card Section */}
+<div className="col-md-12 mt-4">
+  <h5>Statistics</h5>
+  <div className="card">
+    <div className="card-body">
+      <div className="row">
+        {/* Today's Leave */}
+        <div className="col-md-3">
+          <h6>Today's Leave</h6>
+          <p>Data: {/* Add your data for today's leave here */}</p>
+          <div className="progress">
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{ width: '50%' }} // Add your percentage here
+              aria-valuenow={50} // Add your percentage here
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+
+        {/* Pending Invoice */}
+        <div className="col-md-3 mb-3">
+          <h6>Pending Invoice</h6>
+          <p>Data: {/* Add your data for pending invoice here */}</p>
+          <div className="progress">
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{ width: '75%' }} // Add your percentage here
+              aria-valuenow={75} // Add your percentage here
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+
+        {/* Completed Projects */}
+        <div className="col-md-3 mb-3">
+          <h6>Completed Projects</h6>
+          <p>Data: {/* Add your data for completed projects here */}</p>
+          <div className="progress">
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{ width: '90%' }} // Add your percentage here
+              aria-valuenow={90} // Add your percentage here
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+
+        {/* Open Tickets */}
+        <div className="col-md-3 mb-3">
+          <h6>Open Tickets</h6>
+          <p>Data: {/* Add your data for open tickets here */}</p>
+          <div className="progress">
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{ width: '60%' }} // Add your percentage here
+              aria-valuenow={60} // Add your percentage here
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+     {/* Clients and Recent Projects Sections */}
+    <div className="row mt-4">
+          {/* Clients Section */}
+          <div className="col-md-6">
+            <h5>Clients</h5>
+            {clientsData.map((client) => (
+              <div key={client.id} className="client-card">
+                <p>Name: {client.name}</p>
+                <p>Email: {client.email}</p>
+                <p>Status: {client.status}</p>
+                
+                {/* Maintain Status Button */}
+                <button
+                className="btn btn-info mx-2"
+                onClick={() => handleMaintain(client)}
+                >
+                Maintain Status
+                </button>
+                {/* Action Button */}
+                <button
+                className="btn btn-info mx-2"
+                onClick={() => handleClientAction(client,"Edit/Delete")}
+                >
+                Action
+                </button>
+            </div>
+            ))}
+         </div>
+
+          {/* Recent Projects Section */}
+        <div className="col-md-6">
+            <h5>Recent Projects</h5>
+            {recentProjectsData.map((project) => (
+            <div key={project.id} className="project-card">
+                <p>Project Name: {project.projectName}</p>
+                <p>Open Tasks: {project.openTasks}</p>
+                <p>Status: {project.status}</p>
+                <p>Projects Completed: {project.projectsCompleted}</p>
+                <div className="progress">
+                <div
+                    className="progress-bar"
+                    role="progressbar"
+                    style={{ width: `${project.progress}%` }}
+                    aria-valuenow={project.progress}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                >
                 </div>
-              </div>
+                </div>
+                {/* Maintain Status Button */}
+                <button
+                className="btn btn-info mx-2"
+                onClick={() => handleMaintainProject(project)}
+                >
+                Maintain Status
+                </button>
+                {/* Action Button */}
+                <button
+                className="btn btn-warning"
+                onClick={() => handleProjectAction(project, "Edit/Delete")}
+                >
+                Action
+                </button>
+            </div>
+            ))}
+            </div>
             </div>
 
-            <div className="col-md-6">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">Recent Projects</h5>
-                  <div className="row">
-                    {recentProjectsData.map((project, index) => (
-                      <div key={index} className="col">
-                        <p>Project Name: {project.projectName}</p>
-                        <p>Status: {project.projectStatus}</p>
-                        <p>Action: {project.action}</p>
-                    </div>
-                    ))}
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
+    
 
         </div>
         </div>
