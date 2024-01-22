@@ -156,6 +156,7 @@ const [clientsData, setClientsData] = useState([
                   <span className="ms-2 d-none d-sm-inline">Dashboard</span>
                 </Link>
               </li>
+
               <li className="w-100">
                 <Link
                   to="/dashboard/employee"
@@ -176,6 +177,55 @@ const [clientsData, setClientsData] = useState([
                 <span className="ms-2 d-none d-sm-inline">Category</span>
                 </Link>
               </li>
+              <li className="w-100">
+                <Link
+                to="/allemployees"
+                className="nav-link px-0 align-middle text-white"
+                >
+                <i className="fs-4 bi-columns ms-2"></i>
+                <span className="ms-2 d-none d-sm-inline">All Employees</span>
+                </Link>
+              </li>
+              <li className="w-100">
+                <Link
+                to="/employeeleaves"
+                className="nav-link px-0 align-middle text-white"
+                >
+                <i className="fs-4 bi-columns ms-2"></i>
+                <span className="ms-2 d-none d-sm-inline">Employee Leaves</span>
+                </Link>
+              </li>
+              <li className="w-100">
+                <Link
+                to="/adminleaves"
+                className="nav-link px-0 align-middle text-white"
+                >
+                <i className="fs-4 bi-columns ms-2"></i>
+                <span className="ms-2 d-none d-sm-inline">Admin Leaves</span>
+                </Link>
+              </li>
+              <li className="w-100">
+                <Link
+                to="/departments"
+                className="nav-link px-0 align-middle text-white"
+                >
+                <i className="fs-4 bi-columns ms-2"></i>
+                <span className="ms-2 d-none d-sm-inline">Departments</span>
+                </Link>
+              </li>
+              <li className="w-100">
+                <Link
+                to="/add_departments"
+                className="nav-link px-0 align-middle text-white"
+                >
+                <i className="fs-4 bi-columns ms-2"></i>
+                <span className="ms-2 d-none d-sm-inline">Add Departments</span>
+                </Link>
+              </li>
+              
+
+
+
               <li className="w-100">
                 <Link
                   to="/dashboard/profile"

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import express from "express";
 import jwt from "jsonwebtoken";
-import con from '../utils/db.js';
 import multer from "multer";
 import path from "path";
+import con from '../utils/db.js';
 
 const router = express.Router();
 
@@ -60,8 +60,34 @@ router.post('/add_category', (req, res) => {
     });
 });
 
+router.get('/departments', (req, res) => {
+    const sql = "SELECT * FROM department";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        return res.json({Status: true, Result: result})
+    })
+})
 
 
+//add_department
+router.post('/add_departments', (req, res) => {
+    const { department } = req.body;
+
+    if (!department) {
+        return res.status(400).json({ Status: false, Error: "Department name is required" });
+    }
+
+    const sql = `INSERT INTO department (name) VALUES (?)`;
+
+    con.query(sql, [department], (err, result) => {
+        if (err) {
+            console.error("Database error:", err.message);
+            return res.status(500).json({ Status: false, Error: "Failed to add department" });
+        }
+
+        return res.json({ Status: true, Result: result });
+    });
+});
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -96,6 +122,37 @@ router.post('/add_employee',upload.single('image'), (req, res) => {
         })
     })
 })
+
+router.post('/all_employees', (req, res) => {
+  const sql = `INSERT INTO employee
+    (firstname, lastname, username, email, password, employee_id, joining_id, phone, company, department, designation)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  // Hashing the password
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
+    if (err) return res.json({ Status: false, Error: "Password hashing error" });
+
+    const values = [
+    req.body.firstname,
+      req.body.lastname,
+      req.body.username,
+      req.body.email,
+      hash, // Use the hashed password here
+      req.body.employee_id,
+      req.body.joining_id,
+      req.body.phone,
+      req.body.company,
+      req.body.department,
+      req.body.designation
+    ];
+
+    con.query(sql, values, (err, result) => {
+      if (err) return res.json({ Status: false, Error: err.message });
+      return res.json({ Status: true });
+    });
+  });
+});
+
 
 router.get('/employee', (req, res) => {
     const sql = "SELECT * FROM employee";
@@ -172,6 +229,39 @@ router.get('/admin_records', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+
+// Endpoint to handle form submissions
+router.post('/holidays', (req, res) => {
+    const { id, title, holidayDate, day } = req.body;
+  
+    const sql = 'INSERT INTO holidays (id, title, holiday_date, day) VALUES (?, ?, ?, ?)';
+    const values = [id, title, holidayDate, day];
+  
+    con.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Query Error:', err);
+        return res.json({ Status: false, Error: 'Query Error' });
+      }
+  
+      console.log('Data inserted successfully:', result);
+      return res.json({ Status: true, Result: result });
+    });
+  });
+  
+  // Endpoint to retrieve all holidays
+  router.get('/holidays', (req, res) => {
+    const sql = 'SELECT * FROM holidays';
+    con.query(sql, (err, result) => {
+      if (err) {
+        console.error('Query Error:', err);
+        return res.json({ Status: false, Error: 'Query Error' });
+      }
+  
+      console.log('Data retrieved successfully:', result);
+      return res.json({ Status: true, Result: result });
+    });
+  });
 
 
 router.get('/logout', (req, res) => {

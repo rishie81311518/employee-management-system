@@ -11,6 +11,10 @@ import AddCategory from './Components/AddCategory'
 import AddEmployee from './Components/AddEmployee'
 import EditEmployee from './Components/EditEmployee'
 import AllEmployees from './Components/AllEmployees'
+import Holidays from './Components/Holidays'
+import Leaves from './Components/Leaves'
+import EmployeeLeaves from './Components/EmployeeLeaves'
+import Department from './Components/Department'
 
 function App() {
 
@@ -27,6 +31,12 @@ function App() {
         <Route path='/dashboard/add_employee' element={<AddEmployee />}></Route>
         <Route path='/dashboard/edit_employee/:id' element={<EditEmployee />}></Route>
         <Route path='/allemployees' element={<AllEmployees />}></Route>
+        <Route path='/holidays' element={<Holidays />}></Route>
+        <Route path='/adminleaves' element={<Leaves />}></Route>
+        <Route path='/employeeleaves' element={<EmployeeLeaves />}></Route>
+        <Route path='/departments' element={<Department />}></Route>
+        <Route path='/add_departments' element={<Department />}></Route>
+
     </Routes>
     
     </BrowserRouter>
