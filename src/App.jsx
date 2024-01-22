@@ -15,6 +15,7 @@ import Holidays from './Components/Holidays'
 import Leaves from './Components/Leaves'
 import EmployeeLeaves from './Components/EmployeeLeaves'
 import Department from './Components/Department'
+import AddDepartment from './Components/AddDepartment'
 
 function App() {
 
@@ -34,8 +35,8 @@ function App() {
         <Route path='/holidays' element={<Holidays />}></Route>
         <Route path='/adminleaves' element={<Leaves />}></Route>
         <Route path='/employeeleaves' element={<EmployeeLeaves />}></Route>
-        <Route path='/departments' element={<Department />}></Route>
-        <Route path='/add_departments' element={<Department />}></Route>
+        <Route path='/dashboard/department' element={<Department />}></Route>
+        <Route path='/dashboard/add_department' element={<AddDepartment />}></Route>
 
     </Routes>
     

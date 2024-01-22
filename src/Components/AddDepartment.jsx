@@ -11,10 +11,10 @@ const AddDepartment = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3000/auth/add_departments", { department })
+      .post("http://localhost:3000/auth/add_department", { department })
       .then((result) => {
         if (result.data.Status) {
-          navigate("/departments");
+          navigate('/dashboard/department');
         } else {
           alert(result.data.Error);
         }
@@ -28,7 +28,7 @@ const AddDepartment = () => {
         <h2>Add Department</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="category">
+            <label htmlFor="department">
               <strong>Department</strong>
             </label>
             <input

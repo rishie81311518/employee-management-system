@@ -7,7 +7,7 @@ const Department = () => {
     const [department, setDepartment] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/auth/departments')
+        axios.get('http://localhost:3000/auth/department')
             .then(result => {
                 if (result.data.Status) {
                     setDepartment(result.data.Result);
@@ -23,7 +23,7 @@ const Department = () => {
             <div className='d-flex justify-content-center'>
                 <h3>Department List</h3>
             </div>
-            <Link to="/add_departments" className='btn btn-success'>Add Department</Link>
+            <Link to="/dashboard/add_department" className='btn btn-success'>Add Department</Link>
             <div className='mt-3'>
                 <table className='table'>
                     <thead>

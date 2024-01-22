@@ -60,7 +60,7 @@ router.post('/add_category', (req, res) => {
     });
 });
 
-router.get('/departments', (req, res) => {
+router.get('/department', (req, res) => {
     const sql = "SELECT * FROM department";
     con.query(sql, (err, result) => {
         if(err) return res.json({Status: false, Error: "Query Error"})
@@ -70,7 +70,7 @@ router.get('/departments', (req, res) => {
 
 
 //add_department
-router.post('/add_departments', (req, res) => {
+router.post('/add_department', (req, res) => {
     const { department } = req.body;
 
     if (!department) {
