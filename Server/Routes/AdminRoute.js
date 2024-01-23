@@ -89,6 +89,7 @@ router.post('/add_department', (req, res) => {
     });
 });
 
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/Images')
@@ -125,6 +126,7 @@ router.post('/add_employee',upload.single('image'), (req, res) => {
     })
 })
 
+
 router.post('/add_client', upload.none(), (req, res) => {
     const sql = `INSERT INTO client
     (name,username,email,password,phone,company_name,department_id)
@@ -150,6 +152,44 @@ router.post('/add_client', upload.none(), (req, res) => {
     })
 })
 
+// router.post('/add_designation', upload.none(), (req, res) => {
+//     const sql = `INSERT INTO designation
+//     (designation_name,department_id)
+//     VALUES (?)`;
+//     bcrypt.hash(req.body.password, 10, (err, hash) => {
+//         if(err) return res.json({Status: false, Error: "Query Error"})
+//         const values = [
+//             req.body.designation_name,
+//             req.body.department_id
+//         ]
+//         console.log(values);
+//         con.query(sql, [values], (err, result) => {
+//             console.log(result);
+//             if(err) return res.json({Status: false, Error: err.message})
+//             return res.json({Status: true, Result: result})
+//         })
+//     })
+// })
+
+router.post('/add_designation', upload.none(), (req, res) => {
+    console.log(req.body);
+    const sql = `INSERT INTO designation
+    (designation_name, department_id)
+    VALUES (?)`;
+
+    const values = [
+        req.body.designation_name,
+        req.body.department_id
+    ];
+
+    con.query(sql, [values], (err, result) => {
+        if (err) {
+            return res.json({ Status: false, Error: err.message });
+        }
+        return res.json({ Status: true, Result: result });
+    });
+});
+
 
 
 
@@ -160,6 +200,17 @@ router.get('/employee', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+router.get('/designation', (req, res) => {
+    const sql = "SELECT * FROM designation";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error "})
+        return res.json({Status: true, Result: result})
+    })
+})
+
+
+
 
 router.get('/client', (req, res) => {
     const sql = "SELECT * FROM client";
@@ -178,6 +229,16 @@ router.get('/employee/:id', (req, res) => {
     })
 })
 
+router.get('/designation/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM designation WHERE id = ?";
+    con.query(sql,[id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        return res.json({Status: true, Result: result})
+    })
+})
+
+
 router.get('/client/:id', (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM client WHERE id = ?";
@@ -190,7 +251,7 @@ router.get('/client/:id', (req, res) => {
 router.put('/edit_employee/:id', (req, res) => {
     const id = req.params.id;
     const sql = `UPDATE employee
-        set name = ?, email = ?, salary = ?, address = ?, category_id = ? 
+        set name = ?, email = ?, salary = ?, address = ?, category_id = ?
         Where id = ?`
     const values = [
         req.body.name,
@@ -204,6 +265,22 @@ router.put('/edit_employee/:id', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+router.put('/edit_designation/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = `UPDATE designation
+        set designation_name = ?,department_id = ?
+        Where id = ?`
+    const values = [
+        req.body.designation_name,
+        req.body.department_id
+    ]
+    con.query(sql,[...values, id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"+err})
+        return res.json({Status: true, Result: result})
+    })
+})
+
 
 router.put('/edit_client/:id', (req, res) => {
     const id = req.params.id;
@@ -232,6 +309,17 @@ router.delete('/delete_employee/:id', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+router.delete('/delete_designation/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "delete from designation where id = ?"
+    con.query(sql,[id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"+err})
+        return res.json({Status: true, Result: result})
+    })
+})
+
+
 
 router.delete('/delete_client/:id', (req, res) => {
     const id = req.params.id;

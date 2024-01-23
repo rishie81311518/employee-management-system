@@ -19,6 +19,8 @@ import AddDepartment from './Components/AddDepartment'
 import Client from './Components/Client'
 import AddClient from './Components/AddClient'
 import EditClient from './Components/EditClient'
+import Designation from './Components/Designation'
+import AddDesignation from './Components/AddDesignation'
 
 function App() {
 
@@ -44,6 +46,8 @@ function App() {
         <Route path='/dashboard/client' element={<Client />}></Route>
         <Route path='/dashboard/add_client' element={<AddClient />}></Route>
         <Route path='/dashboard/edit_client/:id' element={<EditClient />}></Route>
+        <Route path='/dashboard/designation' element={<Designation />}></Route>
+        <Route path='/dashboard/add_designation' element={<AddDesignation />}></Route>
 
     </Routes>
     
