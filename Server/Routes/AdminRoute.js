@@ -152,25 +152,6 @@ router.post('/add_client', upload.none(), (req, res) => {
     })
 })
 
-// router.post('/add_designation', upload.none(), (req, res) => {
-//     const sql = `INSERT INTO designation
-//     (designation_name,department_id)
-//     VALUES (?)`;
-//     bcrypt.hash(req.body.password, 10, (err, hash) => {
-//         if(err) return res.json({Status: false, Error: "Query Error"})
-//         const values = [
-//             req.body.designation_name,
-//             req.body.department_id
-//         ]
-//         console.log(values);
-//         con.query(sql, [values], (err, result) => {
-//             console.log(result);
-//             if(err) return res.json({Status: false, Error: err.message})
-//             return res.json({Status: true, Result: result})
-//         })
-//     })
-// })
-
 router.post('/add_designation', upload.none(), (req, res) => {
     console.log(req.body);
     const sql = `INSERT INTO designation

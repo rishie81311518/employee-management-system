@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   const cardsData = [
     { title: "Projects", imageSrc: img1, content: " 112 " },
-    { title: "Clients", imageSrc: img2, content: " abedfegd ",  },
+    { title: "Clients", imageSrc: img2, content: " abedfegd " },
     { title: "Tasks", imageSrc: img3, content: "Tasks content here" },
     { title: "Employees", imageSrc: img4, content: "Employees content here" },
   ];
@@ -284,7 +284,15 @@ const Dashboard = () => {
                   <span className="ms-2 d-none d-sm-inline">Projects</span>
                 </Link>
               </li>
-            
+              <li className="w-100">
+                <Link
+                  to="/dashboard/hr"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-columns ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">HR</span>
+                </Link>
+              </li>
 
               <li className="w-100">
                 <Link
