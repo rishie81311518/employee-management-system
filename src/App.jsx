@@ -16,6 +16,9 @@ import Leaves from './Components/Leaves'
 import EmployeeLeaves from './Components/EmployeeLeaves'
 import Department from './Components/Department'
 import AddDepartment from './Components/AddDepartment'
+import Client from './Components/Client'
+import AddClient from './Components/AddClient'
+import EditClient from './Components/EditClient'
 
 function App() {
 
@@ -37,6 +40,10 @@ function App() {
         <Route path='/employeeleaves' element={<EmployeeLeaves />}></Route>
         <Route path='/dashboard/department' element={<Department />}></Route>
         <Route path='/dashboard/add_department' element={<AddDepartment />}></Route>
+        <Route path='/dashboard/add_department' element={<AddDepartment />}></Route>
+        <Route path='/dashboard/client' element={<Client />}></Route>
+        <Route path='/dashboard/add_client' element={<AddClient />}></Route>
+        <Route path='/dashboard/edit_client/:id' element={<EditClient />}></Route>
 
     </Routes>
     

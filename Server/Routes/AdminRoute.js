@@ -102,10 +102,12 @@ const upload = multer({
 })
 
 router.post('/add_employee',upload.single('image'), (req, res) => {
+    console.log(req.body);
     const sql = `INSERT INTO employee
     (name,email,password, address, salary,image, category_id)
     VALUES (?)`;
     bcrypt.hash(req.body.password, 10, (err, hash) => {
+        //console.log(hash)
         if(err) return res.json({Status: false, Error: "Query Error"})
         const values = [
             req.body.name,
@@ -118,40 +120,37 @@ router.post('/add_employee',upload.single('image'), (req, res) => {
         ]
         con.query(sql, [values], (err, result) => {
             if(err) return res.json({Status: false, Error: err.message})
-            return res.json({Status: true})
+            return res.json({Status: true, Result: result})
         })
     })
 })
 
-router.post('/all_employees', (req, res) => {
-  const sql = `INSERT INTO employee
-    (firstname, lastname, username, email, password, employee_id, joining_id, phone, company, department, designation)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+router.post('/add_client', upload.none(), (req, res) => {
+    const sql = `INSERT INTO client
+    (name,username,email,password,phone,company_name,department_id)
+    VALUES (?)`;
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        console.log(hash.length);
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        const values = [
+            req.body.name,
+            req.body.username,
+            req.body.email,
+            hash,
+            req.body.phone,
+            req.body.company_name,
+            req.body.department_id
+        ]
+        console.log(values);
+        con.query(sql, [values], (err, result) => {
+            console.log(result);
+            if(err) return res.json({Status: false, Error: err.message})
+            return res.json({Status: true, Result: result})
+        })
+    })
+})
 
-  // Hashing the password
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) return res.json({ Status: false, Error: "Password hashing error" });
 
-    const values = [
-    req.body.firstname,
-      req.body.lastname,
-      req.body.username,
-      req.body.email,
-      hash, // Use the hashed password here
-      req.body.employee_id,
-      req.body.joining_id,
-      req.body.phone,
-      req.body.company,
-      req.body.department,
-      req.body.designation
-    ];
-
-    con.query(sql, values, (err, result) => {
-      if (err) return res.json({ Status: false, Error: err.message });
-      return res.json({ Status: true });
-    });
-  });
-});
 
 
 router.get('/employee', (req, res) => {
@@ -162,9 +161,26 @@ router.get('/employee', (req, res) => {
     })
 })
 
+router.get('/client', (req, res) => {
+    const sql = "SELECT * FROM client";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error "})
+        return res.json({Status: true, Result: result})
+    })
+})
+
 router.get('/employee/:id', (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM employee WHERE id = ?";
+    con.query(sql,[id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        return res.json({Status: true, Result: result})
+    })
+})
+
+router.get('/client/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM client WHERE id = ?";
     con.query(sql,[id], (err, result) => {
         if(err) return res.json({Status: false, Error: "Query Error"})
         return res.json({Status: true, Result: result})
@@ -189,6 +205,25 @@ router.put('/edit_employee/:id', (req, res) => {
     })
 })
 
+router.put('/edit_client/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = `UPDATE client
+        set name = ?, username = ?, email = ?, phone = ?, company_name = ?, department_id = ?
+        Where id = ?`
+    const values = [
+        req.body.name,
+        req.body.username,
+        req.body.email,
+        req.body.phone,
+        req.body.company_name,
+        req.body.department_id
+    ]
+    con.query(sql,[...values, id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"+err})
+        return res.json({Status: true, Result: result})
+    })
+})
+
 router.delete('/delete_employee/:id', (req, res) => {
     const id = req.params.id;
     const sql = "delete from employee where id = ?"
@@ -197,6 +232,16 @@ router.delete('/delete_employee/:id', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+router.delete('/delete_client/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "delete from client where id = ?"
+    con.query(sql,[id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"+err})
+        return res.json({Status: true, Result: result})
+    })
+})
+
 
 router.get('/admin_count', (req, res) => {
     const sql = "select count(id) as admin from admin";
