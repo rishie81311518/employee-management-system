@@ -211,7 +211,7 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/allemployees"
+                  to="/dashboard/allemployees"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-columns ms-2"></i>
@@ -220,7 +220,7 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/employeeleaves"
+                  to="/dashboard/employeeleaves"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-columns ms-2"></i>
@@ -231,7 +231,7 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/adminleaves"
+                  to="/dashboard/adminleaves"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-columns ms-2"></i>
@@ -265,7 +265,25 @@ const Dashboard = () => {
                   <span className="ms-2 d-none d-sm-inline">Designations</span>
                 </Link>
               </li>
+              <li className="w-100">
+                <Link
+                  to="/dashboard/holidays"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-columns ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Holidays</span>
+                </Link>
+              </li>
 
+              <li className="w-100">
+                <Link
+                  to="/dashboard/project"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-columns ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Projects</span>
+                </Link>
+              </li>
             
 
               <li className="w-100">
