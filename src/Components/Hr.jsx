@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const TopNavbar = () => {
   return (
@@ -185,16 +185,18 @@ function Hr() {
                       <Dropdown.Item eventKey="Expired">Expired</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-                </div>
+                 </div>
 
                 <div className="col-md-4 mb-3">
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={handleCreateEstimate}
-                  >
-                    Create Estimate
-                  </button>
+                  <Link to="/dashboard/estimate">
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={handleCreateEstimate}
+                    >
+                      Create Estimate
+                    </button>
+                  </Link>
                 </div>
               </div>
 
@@ -320,7 +322,191 @@ function Hr() {
           </button>
         </form>
       </div>
+      
+      <div className="mb-3 mt-4">
+          <div className="card-body">
+            <h5 className="card-title">Invoices</h5>
+            <form onSubmit={handleSearch} className="row g-3">
+              <div className="mb-3">
+                <label htmlFor="fromDate" className="form-label">
+                  From Date
+                </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="fromDate"
+                  name="fromDate"
+                  value={formData.fromDate}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="toDate" className="form-label">
+                  To Date
+                </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="toDate"
+                  name="toDate"
+                  value={formData.toDate}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="row g-3">
+                <div className="col-md-2 mb-2">
+                  <Dropdown onSelect={handleDropdownSelect}>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      {selectedStatus || "Select Status"}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item eventKey="Accepted">
+                        Accepted
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Declined">
+                        Declined
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Expired">Expired</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                 </div>
+
+                <div className="col-md-4 mb-3">
+                  <Link to="/dashboard/estimate">
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={handleCreateEstimate}
+                    >
+                      Create Estimate
+                    </button>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="col-md-12">
+                <button type="submit" className="btn btn-primary">
+                  Search
+                </button>
+              </div>
+              {/* Estimated HR Form */}
+      <div className="mt-4">
+        <h5>Invoices of Employees in 2024</h5>
+        <form onSubmit={handleFormSubmit}>
+          <div className="mb-3">
+            <label htmlFor="estimate_id" className="form-label">
+              Invoice number
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="id"
+              name="estimate_number"
+              value={formData.estimate_number}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="client" className="form-label">
+              Client
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="client"
+              name="client"
+              value={formData.client}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="estimateDate" className="form-label">
+              Created Date
+            </label>
+            <input
+              type="date"
+              className="form-control"
+              id="estimateDate"
+              name="estimateDate"
+              value={formData.estimate_date}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="expiryDate" className="form-label">
+              Due Date
+            </label>
+            <input
+              type="date"
+              className="form-control"
+              id="expiryDate"
+              name="expiryDate"
+              value={formData.expiry_date}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="amount" className="form-label">
+              Amount
+            </label>
+            <input
+              type="amount"
+              className="form-control"
+              id="amount"
+              name="amount"
+              value={formData.amount}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="col-md-4 mb-3">
+            <Dropdown onSelect={handleDropdownTwoSelect}>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {selectedEstimatedStatus || "Select Status"}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey="Accepted">Accepted</Dropdown.Item>
+                <Dropdown.Item eventKey="Declined">Declined</Dropdown.Item>
+                <Dropdown.Item eventKey="Expired">Expired</Dropdown.Item>
+                <Dropdown.Item eventKey="Sent">Sent</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+          {/* Action button with Edit and Delete options */}
+          <div className="col-md-4 mb-3">
+            <button
+              type="button"
+              className="btn btn-secondary mr-2"
+              onClick={handleEdit}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={() => window.location.reload()}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+            </form>
+          </div>
+        </div>
     </div>
+    
   );
 }
 

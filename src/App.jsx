@@ -23,6 +23,7 @@ import Leaves from "./Components/Leaves";
 import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import Project from "./Components/Project";
+import CreateEstimate from "./Components/CreateEstimate";
 
 function App() {
   return (
@@ -69,6 +70,8 @@ function App() {
         ></Route>
         <Route path="/dashboard/project" element={<Project />}></Route>
         <Route path="/dashboard/hr" element={<Hr />}></Route>
+        <Route path="/dashboard/estimate" element={<CreateEstimate />}></Route>
+        <Route path="/dashboard/profile/:id" element={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
   );

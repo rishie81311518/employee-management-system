@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Employee = () => {
@@ -20,8 +20,9 @@ const Employee = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3000/auth/delete_employee/${id}`)
-      .then(result => {
+    axios
+      .delete(`http://localhost:3000/auth/delete_employee/${id}`)
+      .then((result) => {
         if (result.data.Status) {
           // Reload the page or update the state to trigger a re-render
           window.location.reload();
@@ -29,7 +30,7 @@ const Employee = () => {
           alert(result.data.Error);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         // Handle error appropriately
       });

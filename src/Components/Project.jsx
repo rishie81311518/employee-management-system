@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 import { NavLink } from "react-router-dom";
 
 const TopNavbar = () => {
@@ -78,6 +79,8 @@ function Project() {
     progress: "",
   });
 
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Add your logic for handling form submission, e.g., sending data to the server
@@ -95,13 +98,14 @@ function Project() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleDropdownSelect = (selectedItem) => {
+    // Update the selected status
+    setSelectedStatus(selectedItem);
+  };
+
   const handleEmployeeInputChange = (e) => {
     const { name, value } = e.target;
     setEmployeeData({ ...employeeData, [name]: value });
-  };
-
-  const refreshPage = () => {
-    window.location.reload();
   };
 
   // Function to handle dynamic form data for tasks and project details
@@ -220,7 +224,7 @@ function Project() {
         </div>
 
         {/* Employee Details Card */}
-        <div className="mt-4">
+        < div className="mt-4">
           <h5>Employee Projects</h5>
           <form onSubmit={handleEmployeeSearch} className="row g-3">
             <div className="col-md-4 mb-3">
@@ -236,6 +240,7 @@ function Project() {
                 onChange={handleEmployeeInputChange}
               />
             </div>
+            
             <div className="col-md-4 mb-3">
               <label htmlFor="employeeName" className="form-label">
                 Employee Name
@@ -249,6 +254,29 @@ function Project() {
                 onChange={handleEmployeeInputChange}
               />
             </div>
+            
+        
+            <div className="col-md-4 mb-3">
+            <label htmlFor="status" className="form-label">
+                Status
+              </label>
+                  <Dropdown onSelect={handleDropdownSelect}>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      {selectedStatus || "Select Status"}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item eventKey="Accepted">
+                        Accepted
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Declined">
+                        Declined
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Expired">Expired</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+                
 
             <div className="col-mb-3">
               <button
@@ -256,7 +284,7 @@ function Project() {
                 className="btn btn-primary"
                 onClick={() => window.location.reload()}
               >
-                Submit
+                Search
               </button>
               
             </div>

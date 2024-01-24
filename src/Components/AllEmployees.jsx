@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { Component, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -11,7 +12,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
 import img1 from "../assets/employee-rishie.jpeg";
 
-const EmployeeCard = ({ id, imageSrc, name, role, onEdit, onDelete }) => (
+const EmployeeCard = ({ id, imageSrc, name, role, }) => (
+  
   <Card style={{ width: "18rem", height: "auto", margin: "10px" }}>
     <Card.Img variant="top" src={imageSrc} />
     <Card.Body>
@@ -22,18 +24,34 @@ const EmployeeCard = ({ id, imageSrc, name, role, onEdit, onDelete }) => (
         <Card.Title>{name}</Card.Title>
       </Link>
       <Card.Text>{role}</Card.Text>
-      </Card.Body>
+    </Card.Body>
+  
   </Card>
+  
+
 );
 
 function AllEmployees() {
   const [selectedDesignation, setSelectedDesignation] = useState(null);
+  const [employee, setEmployee] = useState([]);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     employee_id: "",
     joining_date: null,
   });
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/auth/employee")
+      .then((result) => {
+        if (result.data.Status) {
+          setEmployee(result.data.Result);
+        } else {
+          alert(result.data.Error);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -56,55 +74,6 @@ function AllEmployees() {
       employee_id: "",
       joining_date: null,
     });
-  };
-
-  // Sample employee data
-  const employees = [
-    { id: 1, name: "Sai Babu", role: "UI/UX Designer", imageSrc: img1 },
-    { id: 2, name: "Lokesh", role: "Product Manager", imageSrc: img1 },
-    {
-      id: 3,
-      name: " Chandra Sekhar ",
-      role: "Full stack developer",
-      imageSrc: img1,
-    },
-    { id: 2, name: "Rahul Pawar", role: "Front End Developer", imageSrc: img1 },
-    { id: 2, name: "Mukesh", role: "Back End Developer", imageSrc: img1 },
-    { id: 2, name: "Sushma", role: "Flutter Developer", imageSrc: img1 },
-    { id: 2, name: "Sahu", role: "Python Developer", imageSrc: img1 },
-    { id: 2, name: "Pradeep", role: "Full Stack Developer", imageSrc: img1 },
-  ];
-
-  const handleEdit = (id) => {
-    const updatedEmployees = [...employees];
-    const employeeToEdit = updatedEmployees.find(
-      (employee) => employee.id === id
-    );
-    // Placeholder for edit logic (you can open a modal or navigate to an edit page)
-    console.log(`Editing employee: ${employeeToEdit.name}`);
-  };
-
-  const handleDelete = (id) => {
-    const updatedEmployees = employees.filter((employee) => employee.id !== id);
-    setEmployees(updatedEmployees);
-  };
-
-  const handleAddEmployee = (event) => {
-    event.preventDefault();
-
-    // Access form elements using event.target.elements
-    const firstName = event.target.elements.firstName.value;
-    // Add other form fields as needed
-
-    // Validate required fields
-    if (!firstName) {
-      alert("First Name is a required field");
-      return;
-    }
-
-    // Perform logic to add the employee to the list
-    // Update the employees state with the new employee
-    // Reset the form or close the form after adding the employee
   };
 
   return (
@@ -139,7 +108,7 @@ function AllEmployees() {
       </div>
       <div className="card">
         <div className="card-body">
-         {/* Existing Employee Search Form */}
+          {/* Existing Employee Search Form */}
           <form>
             <div className="row">
               {/* Invoice ID */}
@@ -200,14 +169,12 @@ function AllEmployees() {
           className="ml-250px mt-5"
           style={{ display: "flex", flexWrap: "wrap" }}
         >
-          {employees.map((employee) => (
+          {employee.map((employee) => (
             <EmployeeCard
               key={employee.id}
-              imageSrc={employee.imageSrc}
+              imageSrc={img1}
               name={employee.name}
               role={employee.role}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
             />
           ))}
         </div>

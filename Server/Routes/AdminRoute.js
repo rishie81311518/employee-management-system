@@ -175,6 +175,7 @@ router.post('/add_designation', upload.none(), (req, res) => {
 
 
 router.get('/employee', (req, res) => {
+    // console.log(res.json({Status: true, Result: result}))
     const sql = "SELECT * FROM employee";
     con.query(sql, (err, result) => {
         if(err) return res.json({Status: false, Error: "Query Error "})
@@ -202,13 +203,29 @@ router.get('/client', (req, res) => {
 })
 
 router.get('/employee/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = "SELECT * FROM employee WHERE id = ?";
-    con.query(sql,[id], (err, result) => {
-        if(err) return res.json({Status: false, Error: "Query Error"})
-        return res.json({Status: true, Result: result})
-    })
-})
+    const employeeId = req.params.id;
+  
+    // Ensure employeeId is a valid number before querying the database
+    if (isNaN(employeeId) || employeeId <= 0) {
+      return res.status(400).json({ status: false, error: 'Invalid employee ID' });
+    }
+  
+    const sql = 'SELECT * FROM employee WHERE id = ?';
+  
+    con.query(sql, [employeeId], (err, result) => {
+      if (err) {
+        console.error('Error executing query', err);
+        return res.status(500).json({ status: false, error: 'Query execution error' });
+      }
+  
+      if (result.length === 0) {
+        return res.status(404).json({ status: false, error: 'Employee not found' });
+      }
+  
+      // Employee found, send the data as a JSON response
+      return res.status(200).json({ status: true, result: result[0] });
+    });
+  });
 
 router.get('/designation/:id', (req, res) => {
     const id = req.params.id;
