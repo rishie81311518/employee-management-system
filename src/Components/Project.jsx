@@ -66,6 +66,18 @@ function Project() {
     projectName: "",
   });
 
+  const [taskDetails, setTaskDetails] = useState({
+    openTasks: "",
+    completedTasks: "",
+  });
+
+  const [projectDetails, setProjectDetails] = useState({
+    deadline: "",
+    projectLeader: "",
+    teamsContributed: "",
+    progress: "",
+  });
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Add your logic for handling form submission, e.g., sending data to the server
@@ -86,11 +98,17 @@ function Project() {
   const handleEmployeeInputChange = (e) => {
     const { name, value } = e.target;
     setEmployeeData({ ...employeeData, [name]: value });
-    window.location.reload();
   };
 
   const refreshPage = () => {
     window.location.reload();
+  };
+
+  // Function to handle dynamic form data for tasks and project details
+  const handleTaskProjectDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setTaskDetails({ ...taskDetails, [name]: value });
+    setProjectDetails({ ...projectDetails, [name]: value });
   };
 
   return (
@@ -102,38 +120,7 @@ function Project() {
       <div className="container mt-4 ml-4">
         {/* Cards */}
         <div className="row">
-          <div className="col-md-3">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Office Management</h5>
-                <p className="card-text">12</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Project Management</h5>
-                <p className="card-text">3</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Video Calling App</h5>
-                <p className="card-text">4</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Hospital Administration</h5>
-                <p className="card-text">5</p>
-              </div>
-            </div>
-          </div>
+          {/* ... */}
         </div>
 
         {/* Combined Task and Project Details Card */}
@@ -153,8 +140,8 @@ function Project() {
                       className="form-control"
                       id="openTasks"
                       name="openTasks"
-                      value="10"
-                      readOnly
+                      value={taskDetails.openTasks}
+                      onChange={handleTaskProjectDetailsChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -166,8 +153,8 @@ function Project() {
                       className="form-control"
                       id="completedTasks"
                       name="completedTasks"
-                      value="5"
-                      readOnly
+                      value={taskDetails.completedTasks}
+                      onChange={handleTaskProjectDetailsChange}
                     />
                   </div>
                 </form>
@@ -183,8 +170,8 @@ function Project() {
                       className="form-control"
                       id="deadline"
                       name="deadline"
-                      value="January 31, 2024"
-                      readOnly
+                      value={projectDetails.deadline}
+                      onChange={handleTaskProjectDetailsChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -196,8 +183,8 @@ function Project() {
                       className="form-control"
                       id="projectLeader"
                       name="projectLeader"
-                      value="John Doe"
-                      readOnly
+                      value={projectDetails.projectLeader}
+                      onChange={handleTaskProjectDetailsChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -209,8 +196,8 @@ function Project() {
                       className="form-control"
                       id="teamsContributed"
                       name="teamsContributed"
-                      value="Team A, Team B"
-                      readOnly
+                      value={projectDetails.teamsContributed}
+                      onChange={handleTaskProjectDetailsChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -222,8 +209,8 @@ function Project() {
                       className="form-control"
                       id="progress"
                       name="progress"
-                      value="70%"
-                      readOnly
+                      value={projectDetails.progress}
+                      onChange={handleTaskProjectDetailsChange}
                     />
                   </div>
                 </form>
@@ -235,8 +222,8 @@ function Project() {
         {/* Employee Details Card */}
         <div className="mt-4">
           <h5>Employee Projects</h5>
-          <form onSubmit={handleEmployeeSearch}>
-            <div className="mb-3">
+          <form onSubmit={handleEmployeeSearch} className="row g-3">
+            <div className="col-md-4 mb-3">
               <label htmlFor="employeeName" className="form-label">
                 Project Name
               </label>
@@ -244,12 +231,12 @@ function Project() {
                 type="text"
                 className="form-control"
                 id="employeeName"
-                name="employeeName"
+                name="projectName"
                 value={employeeData.projectName}
                 onChange={handleEmployeeInputChange}
               />
             </div>
-            <div className="mb-3">
+            <div className="col-md-4 mb-3">
               <label htmlFor="employeeName" className="form-label">
                 Employee Name
               </label>
@@ -263,20 +250,18 @@ function Project() {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary mr-2">
-              Search
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={refreshPage}
-            >
-              Refresh Page
-            </button>
+            <div className="col-mb-3">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={() => window.location.reload()}
+              >
+                Submit
+              </button>
+              
+            </div>
           </form>
         </div>
-
-        
       </div>
     </div>
   );
