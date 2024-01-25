@@ -9,6 +9,7 @@ import AddEmployee from "./Components/AddEmployee";
 import AllEmployees from "./Components/AllEmployees";
 import Category from "./Components/Category";
 import Client from "./Components/Client";
+import CreateEstimate from "./Components/CreateEstimate";
 import Dashboard from "./Components/Dashboard";
 import Department from "./Components/Department";
 import Designation from "./Components/Designation";
@@ -23,7 +24,7 @@ import Leaves from "./Components/Leaves";
 import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import Project from "./Components/Project";
-import CreateEstimate from "./Components/CreateEstimate";
+import DataTable from "./Components/DataTable";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
         <Route path="/dashboard/hr" element={<Hr />}></Route>
         <Route path="/dashboard/estimate" element={<CreateEstimate />}></Route>
         <Route path="/dashboard/profile/:id" element={<Profile />}></Route>
+        <Route path="/datatable" element={<DataTable />}></Route>
       </Routes>
     </BrowserRouter>
   );

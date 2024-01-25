@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 import { useNavigate } from "react-router-dom";
 
 const AddEmployee = () => {
@@ -11,10 +12,25 @@ const AddEmployee = () => {
     address: "",
     category_id: "",
     image: "",
+    work_mode: "",
   });
   const [category, setCategory] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const navigate = useNavigate();
 
+  const WorkTypes = {
+    Hybrid: 1,
+    WorkFromHome: 2,
+    Remote: 3,
+  };
+
+  
+
+  const handleDropdownSelect = (selectedItem) => {
+    // Update the selected status
+    setSelectedStatus(selectedItem);
+    setEmployee({ ...employee, work_mode: WorkTypes[selectedItem] });
+  };
   useEffect(() => {
     axios
       .get("http://localhost:3000/auth/category")
@@ -38,7 +54,8 @@ const AddEmployee = () => {
     formData.append("salary", employee.salary);
     formData.append("image", employee.image);
     formData.append("category_id", employee.category_id);
-
+    formData.append("work_mode", employee.work_mode);
+    console.log(employee);
     axios
       .post("http://localhost:3000/auth/add_employee", formData)
       .then((result) => {
@@ -56,36 +73,36 @@ const AddEmployee = () => {
       <div className="p-3 rounded w-50 border">
         <h3 className="text-center">Add Employee</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
-        <div className="col-12">
+          <div className="col-12">
             <label htmlFor="inputName" className="form-label">
-            Name
+              Name
             </label>
             <input
-            type="text"
-            className="form-control rounded-0"
-            id="inputName"
-            placeholder="Enter Name"
-            onChange={(e) =>
+              type="text"
+              className="form-control rounded-0"
+              id="inputName"
+              placeholder="Enter Name"
+              onChange={(e) =>
                 setEmployee({ ...employee, name: e.target.value })
-            }
+              }
             />
-        </div>
-        <div className="col-12">
+          </div>
+          <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">
-            Email
+              Email
             </label>
             <input
-            type="email"
-            className="form-control rounded-0"
-            id="inputEmail4"
-            placeholder="Enter Email"
-            autoComplete="off"
-            onChange={(e) =>
+              type="email"
+              className="form-control rounded-0"
+              id="inputEmail4"
+              placeholder="Enter Email"
+              autoComplete="off"
+              onChange={(e) =>
                 setEmployee({ ...employee, email: e.target.value })
-            }
+              }
             />
-        </div>
-        <div className="col-12">
+          </div>
+          <div className="col-12">
             <label htmlFor="inputPassword4" className="form-label">
               Password
             </label>
@@ -99,27 +116,27 @@ const AddEmployee = () => {
               }
             />
             <label htmlFor="inputSalary" className="form-label">
-            Salary
+              Salary
             </label>
             <input
-            type="text"
-            className="form-control rounded-0"
-            id="inputSalary"
-            placeholder="Enter Salary"
-            autoComplete="off"
-            onChange={(e) =>
+              type="text"
+              className="form-control rounded-0"
+              id="inputSalary"
+              placeholder="Enter Salary"
+              autoComplete="off"
+              onChange={(e) =>
                 setEmployee({ ...employee, salary: e.target.value })
-                }
+              }
             />
-        </div>
-        <div className="col-12">
+          </div>
+          <div className="col-12">
             <label htmlFor="inputAddress" className="form-label">
-            Address
+              Address
             </label>
             <input
-            type="text"
-            className="form-control rounded-0"
-            id="inputAddress"
+              type="text"
+              className="form-control rounded-0"
+              id="inputAddress"
               placeholder="1234 Main St"
               autoComplete="off"
               onChange={(e) =>
@@ -129,16 +146,21 @@ const AddEmployee = () => {
           </div>
           <div className="col-12">
             <label htmlFor="category" className="form-label">
-            Category
+              Category
             </label>
-            <select name="category" id="category" className="form-select"
-                onChange={(e) => setEmployee({...employee, category_id: e.target.value})}>
+            <select
+              name="category"
+              id="category"
+              className="form-select"
+              onChange={(e) =>
+                setEmployee({ ...employee, category_id: e.target.value })
+              }
+            >
               {category.map((c) => {
                 return <option value={c.id}>{c.name}</option>;
               })}
             </select>
           </div>
-
 
           <div className="col-12 mb-3">
             <label className="form-label" htmlFor="inputGroupFile01">
@@ -149,9 +171,30 @@ const AddEmployee = () => {
               className="form-control rounded-0"
               id="inputGroupFile01"
               name="image"
-              onChange={(e) => setEmployee({ ...employee, image: e.target.files[0] })}
+              onChange={(e) =>
+                setEmployee({ ...employee, image: e.target.files[0] })
+              }
             />
           </div>
+          <div className="col-md-4 mb-3">
+            <label htmlFor="work mode" className="form-label">
+              Work Mode
+            </label>
+            <Dropdown onSelect={handleDropdownSelect}>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {selectedStatus || "Select Status"}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey="Hybrid">Hybrid</Dropdown.Item>
+                <Dropdown.Item eventKey="WorkFromHome">
+                  Work from home
+                </Dropdown.Item>
+                <Dropdown.Item eventKey="Remote">Remote location</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
               Add Employee

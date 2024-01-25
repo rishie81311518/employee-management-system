@@ -123,9 +123,7 @@ function Project() {
       {/* Main Content */}
       <div className="container mt-4 ml-4">
         {/* Cards */}
-        <div className="row">
-          {/* ... */}
-        </div>
+        <div className="row">{/* ... */}</div>
 
         {/* Combined Task and Project Details Card */}
         <div className="row mt-4">
@@ -224,7 +222,7 @@ function Project() {
         </div>
 
         {/* Employee Details Card */}
-        < div className="mt-4">
+        <div className="mt-4">
           <h5>Employee Projects</h5>
           <form onSubmit={handleEmployeeSearch} className="row g-3">
             <div className="col-md-4 mb-3">
@@ -240,7 +238,7 @@ function Project() {
                 onChange={handleEmployeeInputChange}
               />
             </div>
-            
+
             <div className="col-md-4 mb-3">
               <label htmlFor="employeeName" className="form-label">
                 Employee Name
@@ -254,29 +252,23 @@ function Project() {
                 onChange={handleEmployeeInputChange}
               />
             </div>
-            
-        
+
             <div className="col-md-4 mb-3">
-            <label htmlFor="status" className="form-label">
+              <label htmlFor="status" className="form-label">
                 Status
               </label>
-                  <Dropdown onSelect={handleDropdownSelect}>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                      {selectedStatus || "Select Status"}
-                    </Dropdown.Toggle>
+              <Dropdown onSelect={handleDropdownSelect}>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  {selectedStatus || "Select Status"}
+                </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item eventKey="Accepted">
-                        Accepted
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="Declined">
-                        Declined
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="Expired">Expired</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-                
+                <Dropdown.Menu>
+                  <Dropdown.Item eventKey="Accepted">Accepted</Dropdown.Item>
+                  <Dropdown.Item eventKey="Declined">Declined</Dropdown.Item>
+                  <Dropdown.Item eventKey="Expired">Expired</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
 
             <div className="col-mb-3">
               <button
@@ -286,7 +278,6 @@ function Project() {
               >
                 Search
               </button>
-              
             </div>
           </form>
         </div>
