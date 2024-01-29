@@ -29,7 +29,7 @@ const EditEmployee = () => {
       })
       .catch((err) => console.log(err));
 
-      axios
+    axios
       .get(`http://localhost:3000/auth/employee/${id}`)
       .then((result) => {
         if (result.data.Status) {
@@ -74,7 +74,7 @@ const EditEmployee = () => {
         <h3 className="text-center">Edit Employee</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label for="inputName" className="form-label">
+            <label htmlFor="inputName" className="form-label">
               Name
             </label>
             <input
@@ -89,7 +89,7 @@ const EditEmployee = () => {
             />
           </div>
           <div className="col-12">
-            <label for="inputEmail4" className="form-label">
+            <label htmlFor="inputEmail4" className="form-label">
               Email
             </label>
             <input
@@ -105,7 +105,7 @@ const EditEmployee = () => {
             />
           </div>
           <div className="col-12">
-            <label for="inputSalary" className="form-label">
+            <label htmlFor="inputSalary" className="form-label">
               Salary
             </label>
             <input
@@ -121,7 +121,7 @@ const EditEmployee = () => {
             />
           </div>
           <div className="col-12">
-            <label for="inputAddress" className="form-label">
+            <label htmlFor="inputAddress" className="form-label">
               Address
             </label>
             <input
@@ -157,7 +157,7 @@ const EditEmployee = () => {
             </Dropdown>
           </div>
           <div className="col-12">
-            <label for="category" className="form-label">
+            <label htmlFor="category" className="form-label">
               Category
             </label>
             <select
@@ -169,7 +169,11 @@ const EditEmployee = () => {
               }
             >
               {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
+                return (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                );
               })}
             </select>
           </div>

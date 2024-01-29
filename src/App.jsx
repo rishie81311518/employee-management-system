@@ -25,6 +25,7 @@ import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import Project from "./Components/Project";
 import DataTable from "./Components/DataTable";
+import EmployeeCard from "./Components/EmployeeCard";
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
         <Route path="/dashboard/estimate" element={<CreateEstimate />}></Route>
         <Route path="/dashboard/profile/:id" element={<Profile />}></Route>
         <Route path="/datatable" element={<DataTable />}></Route>
+        <Route path="/employeecard" element={<EmployeeCard />}></Route>
       </Routes>
     </BrowserRouter>
   );
