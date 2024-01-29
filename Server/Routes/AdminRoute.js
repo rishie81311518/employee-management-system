@@ -113,6 +113,8 @@ const upload = multer({
 
 router.post("/add_employee", upload.single("image"), (req, res) => {
   console.log(req.body);
+  const imgBuffer = req.file.buffer;
+  console.log(imgBuffer);
   const sql = `INSERT INTO employee
     (name,email,password, address, salary,image, category_id,work_mode)
     VALUES (?)`;
@@ -128,6 +130,7 @@ router.post("/add_employee", upload.single("image"), (req, res) => {
       req.file.filename,
       req.body.category_id,
       req.body.work_mode,
+      imgBuffer,
     ];
     con.query(sql, [values], (err, result) => {
       if (err) return res.json({ Status: false, Error: err.message });

@@ -12,6 +12,7 @@ const EditEmployee = () => {
     address: "",
     category_id: "",
     work_mode: "",
+    
   });
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
