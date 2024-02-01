@@ -116,7 +116,7 @@ const AddEmployee = () => {
     formData.append("image", employee.image);
     formData.append("category_id", employee.category_id);
     formData.append("work_mode", employee.work_mode);
-    // formData.append("image_data", employee.image_data);
+    formData.append("image_data", employee.image_data);
     console.log(employee);
     axios
       .post("http://localhost:3000/auth/add_employee", formData)
@@ -288,7 +288,7 @@ const AddEmployee = () => {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          {/* <div className="col-12 mb-3">
+          <div className="col-12 mb-3">
             <label className="form-label" htmlFor="inputGroupFile01">
               Upload Image
             </label>
@@ -301,7 +301,7 @@ const AddEmployee = () => {
                 setEmployee({ ...employee, image_data: e.target.files[0] })
               }
             />
-          </div> */}
+          </div>
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
               Add Employee

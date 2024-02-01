@@ -32,10 +32,12 @@ const Dashboard = () => {
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
   const handleLogout = () => {
+    alert("Logout process initiated"); // Optional: Alert to notify user
     axios.get("http://localhost:3000/auth/logout").then((result) => {
+      alert("Logout successful"); // Optional: Alert to notify user
       if (result.data.Status) {
         localStorage.removeItem("valid");
-        navigate("/");
+        navigate("/adminlogin"); // Change the route to "/adminlogin"
       }
     });
   };

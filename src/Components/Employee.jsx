@@ -9,7 +9,7 @@ const Employee = () => {
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState(null);
-  // const [selectedEmployee, setSelectedEmployeeStatus] = useState(null);
+  const [deleteStatus, setDeleteStatus] = useState(false);
 
   const handleEdit = (id) => {
     // Navigate to the "edit_employee/:id" route
@@ -21,6 +21,7 @@ const Employee = () => {
       .delete(`http://localhost:3000/auth/delete_employee/${id}`)
       .then((result) => {
         if (result.data.Status) {
+          //setDeleteStatus(true);
           // Remove the deleted employee from the state
           setEmployee(employee.filter((emp) => emp.id !== id));
         } else {
@@ -113,7 +114,7 @@ const Employee = () => {
         }
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [employee]);
 
   const data = {
     columns: [

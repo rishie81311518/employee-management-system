@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
+import cors from "cors";
 import express from "express";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 import con from "../utils/db.js";
-import cors from "cors";
 
 const router = express.Router();
 router.use(cors());
@@ -113,26 +113,66 @@ const upload = multer({
   storage: storage,
 });
 
-router.post("/add_employee", upload.single("image"), (req, res) => {
-  console.log(req.body);
-  // const image_data = req.file.buffer;
-  // console.log(image_data);
-  const sql = `INSERT INTO employee
-    (name,email,password, address, salary,image, category_id,work_mode)
-    VALUES (?)`;
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    //console.log(hash)
-    if (err) return res.json({ Status: false, Error: "Query Error" });
+// router.post("/add_employee", upload.single("image"), (req, res) => {
+//   console.log(req.body);
+//   // const image_data = req.file.buffer;
+//   // console.log(image_data);
+//   const sql = `INSERT INTO employee
+//     (name,email,password, address, salary,image, category_id,work_mode)
+//     VALUES (?)`;
+//   bcrypt.hash(req.body.password, 10, (err, hash) => {
+//     //console.log(hash)
+//     if (err) return res.json({ Status: false, Error: "Query Error" });
+//     const values = [
+//       req.body.name,
+//       req.body.email,
+//       hash,
+//       req.body.address,
+//       req.body.salary,
+//       req.file.filename,
+//       req.body.category_id,
+//       req.body.work_mode,
+//     ];
+//     con.query(sql, [values], (err, result) => {
+//       if (err) return res.json({ Status: false, Error: err.message });
+//       return res.json({ Status: true, Result: result });
+//     });
+//   });
+// });
+
+router.post("/add_employee", upload.single("image_data"), (req, res) => {
+  const image_data = req.file.buffer;
+
+  // Access other form fields from req.body
+  const { name, email, password, address, salary, category_id, work_mode } =
+    req.body;
+
+  // Hash the password before inserting into the database
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) return res.json({ Status: false, Error: "Hashing Error" });
+
+    // Convert the image data buffer to a Base64 string
+    const base64ImageData = req.file.toString("base64");
+    console.log(req.file);
+    console.log(base64ImageData);
+
+    const sql = `INSERT INTO employee
+      (name, email, password, address, salary, image, category_id, work_mode)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
     const values = [
-      req.body.name,
-      req.body.email,
+      name,
+      email,
       hash,
-      req.body.address,
-      req.body.salary,
-      req.file.filename,
-      req.body.category_id,
-      req.body.work_mode,
+      address,
+      salary,
+      req.file.filename, // Assuming req.file.filename is the filename of the uploaded image
+      category_id,
+      work_mode,
+      base64ImageData, // Pass the Base64 encoded image data
     ];
+
+    // Execute the SQL query
     con.query(sql, [values], (err, result) => {
       if (err) return res.json({ Status: false, Error: err.message });
       return res.json({ Status: true, Result: result });
