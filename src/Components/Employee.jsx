@@ -125,6 +125,12 @@ const Employee = () => {
         width: 150,
       },
       {
+        label: "Client Name",
+        field: "name",
+        sort: "asc",
+        width: 150,
+      },
+      {
         label: "Email",
         field: "email",
         sort: "asc",
@@ -162,6 +168,7 @@ const Employee = () => {
         label: "Delete",
         field: "deleteButton",
       },
+
     ],
     rows: filteredEmployees,
   };

@@ -26,6 +26,7 @@ import Profile from "./Components/Profile";
 import Project from "./Components/Project";
 import DataTable from "./Components/DataTable";
 import EmployeeCard from "./Components/EmployeeCard";
+import AllClients from "./Components/AllClients";
 
 function App() {
   return (
@@ -76,6 +77,7 @@ function App() {
         <Route path="/dashboard/profile/:id" element={<Profile />}></Route>
         <Route path="/datatable" element={<DataTable />}></Route>
         <Route path="/employeecard" element={<EmployeeCard />}></Route>
+        <Route path="/dashboard/allclients" element={<AllClients />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "chart.js";
 
-import React, { useState,useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -239,6 +239,16 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
+                  to="/dashboard/allclients"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-columns ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">All Clients</span>
+                </Link>
+              </li>
+
+              <li className="w-100">
+                <Link
                   to="/dashboard/employeeleaves"
                   className="nav-link px-0 align-middle text-white"
                 >
@@ -353,7 +363,7 @@ const Dashboard = () => {
                     <h5 className="card-title">{card.title}</h5>
                     <p className="card-text">{card.content}</p>
                     <p className="card-text">
-                      Overall Employees:{employee.length}  
+                      Overall Employees:{employee.length}
                     </p>{" "}
                     {/* Pass total employees */}
                   </div>

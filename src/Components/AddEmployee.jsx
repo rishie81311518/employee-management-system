@@ -14,6 +14,7 @@ const AddEmployee = () => {
     image: "",
     work_mode: "",
     image_data: "",
+    client_name: "",
   });
   const [category, setCategory] = useState([]);
 
@@ -94,6 +95,15 @@ const AddEmployee = () => {
       valid = false;
     }
 
+    if (!employee.client_name) {
+      errors.client_name = "Client Name is required";
+      valid = false;
+    } else if (!/^[A-Z][a-zA-Z\s]*$/.test(employee.client_name)) {
+      errors.client_name =
+        "Name should start with a capital letter and contain only letters and spaces";
+      valid = false;
+    }
+
     setErrors(errors);
     return valid;
   };
@@ -118,6 +128,7 @@ const AddEmployee = () => {
     formData.append("category_id", employee.category_id);
     formData.append("work_mode", employee.work_mode);
     formData.append("image_data", employee.image_data);
+    formData.append("client_name", employee.client_name);
     console.log(employee);
     axios
       .post("http://localhost:3000/auth/add_employee", formData)
@@ -270,6 +281,26 @@ const AddEmployee = () => {
               <div className="invalid-feedback">{errors.image}</div>
             )}
           </div>
+          <div className="col-12">
+            <label htmlFor="inputName" className="form-label">
+              Client Name
+            </label>
+            <input
+              type="text"
+              className={`form-control rounded-0 ${
+                errors.client_name ? "is-invalid" : ""
+              }`}
+              id="inputName"
+              placeholder="Enter Client Name"
+              onChange={(e) =>
+                setEmployee({ ...employee, client_name: e.target.value })
+              }
+            />
+            {errors.client_name && (
+              <div className="invalid-feedback">{errors.client_name}</div>
+            )}
+          </div>
+
 
           <div className="col-md-4 mb-3">
             <label htmlFor="work mode" className="form-label">

@@ -144,7 +144,7 @@ router.post("/add_employee", upload.single("image_data"), (req, res) => {
   const image_data = req.file.buffer;
 
   // Access other form fields from req.body
-  const { name, email, password, address, salary, category_id, work_mode } =
+  const { name, email, password, address, salary, category_id, work_mode,client_name} =
     req.body;
 
   // Hash the password before inserting into the database
@@ -157,7 +157,7 @@ router.post("/add_employee", upload.single("image_data"), (req, res) => {
     console.log(base64ImageData);
 
     const sql = `INSERT INTO employee
-      (name, email, password, address, salary, image, category_id, work_mode)
+      (name, email, password, address, salary, image, category_id, work_mode,client_name)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
@@ -169,7 +169,8 @@ router.post("/add_employee", upload.single("image_data"), (req, res) => {
       req.file.filename, // Assuming req.file.filename is the filename of the uploaded image
       category_id,
       work_mode,
-      base64ImageData, // Pass the Base64 encoded image data
+      base64ImageData,
+      client_name
     ];
 
     // Execute the SQL query
