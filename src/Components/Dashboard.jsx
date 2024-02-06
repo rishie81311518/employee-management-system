@@ -9,7 +9,8 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import React, { useState } from "react";
+
+import React, { useState,useEffect } from "react";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -17,8 +18,6 @@ import { Bar } from "react-chartjs-2";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import img2 from "../assets/client-2.png";
 import img4 from "../assets/employee.png";
-import img1 from "../assets/employees.jpeg";
-import img3 from "../assets/task.png";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -29,6 +28,7 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const [employee, setEmployees] = useState([]);
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
   const handleLogout = () => {
@@ -42,11 +42,28 @@ const Dashboard = () => {
     });
   };
 
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/auth/employee");
+        if (response.data.Status) {
+          setEmployees(response.data.Result);
+        } else {
+          alert(response.data.Error);
+        }
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+        alert("An error occurred while fetching employee data.");
+      }
+    };
+
+    fetchEmployees();
+  }, []);
+
   const cardsData = [
-    { title: "Projects", imageSrc: img1, content: " 112 " },
+    // { title: "Projects", imageSrc: img1, content: " 112 " },
     { title: "Clients", imageSrc: img2, content: " abedfegd " },
-    { title: "Tasks", imageSrc: img3, content: "Tasks content here" },
-    { title: "Employees", imageSrc: img4, content: "Employees content here" },
+    { title: "Employees", imageSrc: img4, content: "hsjjsjs" },
   ];
 
   const barChartData = {
@@ -322,19 +339,23 @@ const Dashboard = () => {
           <Outlet />
 
           {/* Cards Section */}
-          <div className="row mt-4">
+          <div className="row mt-8">
             {cardsData.map((card, index) => (
-              <div key={index} className="col-md-3">
+              <div key={index} className="col-md-5">
                 <div className="card">
                   <img
                     src={card.imageSrc}
                     className="card-img-top"
-                    height={300}
+                    height={500}
                     alt={`${card.title} Image`}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{card.title}</h5>
                     <p className="card-text">{card.content}</p>
+                    <p className="card-text">
+                      Overall Employees:{employee.length}  
+                    </p>{" "}
+                    {/* Pass total employees */}
                   </div>
                 </div>
               </div>

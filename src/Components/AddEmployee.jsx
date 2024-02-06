@@ -16,6 +16,7 @@ const AddEmployee = () => {
     image_data: "",
   });
   const [category, setCategory] = useState([]);
+
   const [selectedStatus, setSelectedStatus] = useState(null);
   const navigate = useNavigate();
 
