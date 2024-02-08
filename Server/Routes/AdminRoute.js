@@ -140,24 +140,64 @@ const upload = multer({
 //   });
 // });
 
-router.post("/add_employee", upload.single("image_data"), (req, res) => {
-  const image_data = req.file.buffer;
+// router.post("/add_employee", upload.single("image"), (req, res) => {
+//   // Access other form fields from req.body
+//   const {
+//     name,
+//     email,
+//     password,
+//     address,
+//     salary,
+//     category_id,
+//     work_mode,
+//     client_id,
+//   } = req.body;
 
+//   bcrypt.hash(password, 10, (err, hash) => {
+//     if (err) return res.json({ Status: false, Error: "Hashing Error" });
+
+//     const sql = `INSERT INTO employee
+//       (name, email, password, address, salary, image, category_id, work_mode,client_id)
+//       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+//     const values = [
+//       name,
+//       email,
+//       hash,
+//       address,
+//       salary,
+//       req.file.filename,
+//       category_id,
+//       work_mode,
+//       client_id,
+//     ];
+
+//     // Execute the SQL query
+//     con.query(sql, [values], (err, result) => {
+//       if (err) return res.json({ Status: false, Error: err.message });
+//       return res.json({ Status: true, Result: result });
+//     });
+//   });
+// });
+
+router.post("/add_employee", upload.single("image"), (req, res) => {
   // Access other form fields from req.body
-  const { name, email, password, address, salary, category_id, work_mode,client_name} =
-    req.body;
+  const {
+    name,
+    email,
+    password,
+    address,
+    salary,
+    category_id,
+    work_mode,
+    client_id,
+  } = req.body;
 
-  // Hash the password before inserting into the database
   bcrypt.hash(password, 10, (err, hash) => {
     if (err) return res.json({ Status: false, Error: "Hashing Error" });
 
-    // Convert the image data buffer to a Base64 string
-    const base64ImageData = req.file.toString("base64");
-    console.log(req.file);
-    console.log(base64ImageData);
-
     const sql = `INSERT INTO employee
-      (name, email, password, address, salary, image, category_id, work_mode,client_name)
+      (name, email, password, address, salary, image, category_id, work_mode, client_id)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
@@ -166,15 +206,14 @@ router.post("/add_employee", upload.single("image_data"), (req, res) => {
       hash,
       address,
       salary,
-      req.file.filename, // Assuming req.file.filename is the filename of the uploaded image
+      req.file.filename, // Assuming Multer stores the uploaded file's name in req.file.filename
       category_id,
       work_mode,
-      base64ImageData,
-      client_name
+      client_id,
     ];
 
     // Execute the SQL query
-    con.query(sql, [values], (err, result) => {
+    con.query(sql, values, (err, result) => {
       if (err) return res.json({ Status: false, Error: err.message });
       return res.json({ Status: true, Result: result });
     });
@@ -224,10 +263,10 @@ router.post("/add_designation", upload.none(), (req, res) => {
 
 router.get("/employee", (req, res) => {
   // console.log(res.json({Status: true, Result: result}))
-  const sql = "SELECT * FROM employee";
-  con.query(sql, (err, result) => {
+  // const sql = "SELECT * FROM employee";
+  con.query("CALL usp_getallEmployees()", (err, result) => {
     if (err) return res.json({ Status: false, Error: "Query Error " });
-    return res.json({ Status: true, Result: result });
+    return res.json({ Status: true, Result: result[0] });
   });
 });
 
@@ -248,35 +287,55 @@ router.get("/client", (req, res) => {
 });
 
 router.get("/employee/:id", (req, res) => {
-  const employeeId = req.params.id;
-
-  // Ensure employeeId is a valid number before querying the database
-  if (isNaN(employeeId) || employeeId <= 0) {
-    return res
-      .status(400)
-      .json({ status: false, error: "Invalid employee ID" });
-  }
-
-  const sql = "SELECT * FROM employee WHERE id = ?";
-
-  con.query(sql, [employeeId], (err, result) => {
+  const id = req.params.id;
+  const sql = `SELECT e.name AS employee_name, e.email, e.salary, e.address, e.image, e.work_mode, c.name AS client_name
+              FROM employee e
+              JOIN client c ON e.client_id = c.id
+              WHERE e.id = ?`;
+  con.query(sql, id, (err, result) => {
     if (err) {
-      console.error("Error executing query", err);
-      return res
-        .status(500)
-        .json({ status: false, error: "Query execution error" });
+      console.error("Error fetching employee:", err);
+      res.json({ Status: false, Error: "Error fetching employee data." });
+    } else {
+      if (result.length > 0) {
+        res.json({ Status: true, Result: result[0] });
+      } else {
+        res.json({ Status: false, Error: "Employee not found." });
+      }
     }
-
-    if (result.length === 0) {
-      return res
-        .status(404)
-        .json({ status: false, error: "Employee not found" });
-    }
-
-    // Employee found, send the data as a JSON response
-    return res.status(200).json({ status: true, result: result[0] });
   });
 });
+
+// router.get("/employee/:id", (req, res) => {
+//   const employeeId = req.params.id;
+
+//   // Ensure employeeId is a valid number before querying the database
+//   if (isNaN(employeeId) || employeeId <= 0) {
+//     return res
+//       .status(400)
+//       .json({ status: false, error: "Invalid employee ID" });
+//   }
+
+//   const sql = "SELECT * FROM employee WHERE id = ?";
+
+//   con.query(sql, [employeeId], (err, result) => {
+//     if (err) {
+//       console.error("Error executing query", err);
+//       return res
+//         .status(500)
+//         .json({ status: false, error: "Query execution error" });
+//     }
+
+//     if (result.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ status: false, error: "Employee not found" });
+//     }
+
+//     // Employee found, send the data as a JSON response
+//     return res.status(200).json({ status: true, result: result[0] });
+//   });
+// });
 
 router.get("/designation/:id", (req, res) => {
   const id = req.params.id;

@@ -13,10 +13,11 @@ const AddEmployee = () => {
     category_id: "",
     image: "",
     work_mode: "",
-    image_data: "",
-    client_name: "",
+    client_id: "",
+    // image_data: "",
   });
   const [category, setCategory] = useState([]);
+  const [client, setClient] = useState([]);
 
   const [selectedStatus, setSelectedStatus] = useState(null);
   const navigate = useNavigate();
@@ -42,6 +43,21 @@ const AddEmployee = () => {
           // Add default category at the beginning of the array
           result.data.Result.unshift({ id: 0, name: "None" });
           setCategory(result.data.Result);
+        } else {
+          alert(result.data.Error);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/auth/client")
+      .then((result) => {
+        if (result.data.Status) {
+          // Add default category at the beginning of the array
+          result.data.Result.unshift({ id: 0, name: "None" });
+          setClient(result.data.Result);
         } else {
           alert(result.data.Error);
         }
@@ -95,15 +111,6 @@ const AddEmployee = () => {
       valid = false;
     }
 
-    if (!employee.client_name) {
-      errors.client_name = "Client Name is required";
-      valid = false;
-    } else if (!/^[A-Z][a-zA-Z\s]*$/.test(employee.client_name)) {
-      errors.client_name =
-        "Name should start with a capital letter and contain only letters and spaces";
-      valid = false;
-    }
-
     setErrors(errors);
     return valid;
   };
@@ -127,8 +134,9 @@ const AddEmployee = () => {
     formData.append("image", employee.image);
     formData.append("category_id", employee.category_id);
     formData.append("work_mode", employee.work_mode);
-    formData.append("image_data", employee.image_data);
-    formData.append("client_name", employee.client_name);
+    formData.append("client_id", employee.client_id);
+    // formData.append("image_data", employee.image_data);
+
     console.log(employee);
     axios
       .post("http://localhost:3000/auth/add_employee", formData)
@@ -257,6 +265,24 @@ const AddEmployee = () => {
             </select>
           </div>
 
+          <div className="col-12">
+            <label htmlFor="client" className="form-label">
+              Client
+            </label>
+            <select
+              name="client"
+              id="client"
+              className="form-select"
+              onChange={(e) =>
+                setEmployee({ ...employee, client_id: e.target.value })
+              }
+            >
+              {client.map((c) => {
+                return <option value={c.id}>{c.name}</option>;
+              })}
+            </select>
+          </div>
+
           <div className="col-12 mb-3">
             <label className="form-label" htmlFor="inputGroupFile01">
               Select Image
@@ -281,26 +307,6 @@ const AddEmployee = () => {
               <div className="invalid-feedback">{errors.image}</div>
             )}
           </div>
-          <div className="col-12">
-            <label htmlFor="inputName" className="form-label">
-              Client Name
-            </label>
-            <input
-              type="text"
-              className={`form-control rounded-0 ${
-                errors.client_name ? "is-invalid" : ""
-              }`}
-              id="inputName"
-              placeholder="Enter Client Name"
-              onChange={(e) =>
-                setEmployee({ ...employee, client_name: e.target.value })
-              }
-            />
-            {errors.client_name && (
-              <div className="invalid-feedback">{errors.client_name}</div>
-            )}
-          </div>
-
 
           <div className="col-md-4 mb-3">
             <label htmlFor="work mode" className="form-label">
@@ -320,7 +326,7 @@ const AddEmployee = () => {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <div className="col-12 mb-3">
+          {/* <div className="col-12 mb-3">
             <label className="form-label" htmlFor="inputGroupFile01">
               Upload Image
             </label>
@@ -333,7 +339,7 @@ const AddEmployee = () => {
                 setEmployee({ ...employee, image_data: e.target.files[0] })
               }
             />
-          </div>
+          </div> */}
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
               Add Employee

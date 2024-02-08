@@ -32,16 +32,16 @@ const AllClients = () => {
     console.log("Navigating to profile page for employee with ID:", id);
     // navigate('/dashboard/profile/:id')
   };
-  const [employees, setEmployees] = useState([]);
+  const [clients, setClients] = useState([]);
 
   const [selectedDesignation, setSelectedDesignation] = useState(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/auth/employee");
+        const response = await axios.get("http://localhost:3000/auth/client");
         if (response.data.Status) {
-          setEmployees(response.data.Result);
+          setClients(response.data.Result);
         } else {
           alert(response.data.Error);
         }
@@ -62,7 +62,7 @@ const AllClients = () => {
 
   return (
     <Container>
-      <h2>All Employees</h2>
+      <h2>All Clients</h2>
       <div style={{ marginBottom: "20px" }}>
         {/* Employee Search Form */}
         <Form
@@ -88,13 +88,13 @@ const AllClients = () => {
         </Form>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {employees.map((employee) => (
-          <Link key={employee.id} to={`/dashboard/profile/${employee.id}`}>
+        {clients.map((client) => (
+          <Link key={client.id} to={`/dashboard/profile/${client.id}`}>
             <EmployeeCard
-              id={employee.id}
+              id={client.id}
               imageSrc={img1}
-              name={employee.name}
-              role={employee.role}
+              name={client.name}
+              role={client.role}
               onClick={navigateToProfile}
             />
           </Link>

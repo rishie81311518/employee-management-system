@@ -15,9 +15,9 @@ const AddClient = () => {
   const [department, setDepartment] = useState([]);
   const navigate = useNavigate();
 
-//   useEffect(()=>{
-//  console.log(client);
-//   },[client]);
+  //   useEffect(()=>{
+  //  console.log(client);
+  //   },[client]);
   useEffect(() => {
     axios
       .get("http://localhost:3000/auth/department")
@@ -36,13 +36,13 @@ const AddClient = () => {
     //console.log(client);
     const formData = new FormData();
     formData.append("name", client.name);
-    formData.append("username",client.username);
+    formData.append("username", client.username);
     formData.append("email", client.email);
     formData.append("password", client.password);
     formData.append("phone", client.phone);
     formData.append("company_name", client.company_name);
     formData.append("department_id", client.department_id);
-   console.log(formData);
+    console.log(formData);
     axios
       .post("http://localhost:3000/auth/add_client", formData)
       .then((result) => {
@@ -60,51 +60,47 @@ const AddClient = () => {
       <div className="p-3 rounded w-50 border">
         <h3 className="text-center">Add Client</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
-        <div className="col-12">
+          <div className="col-12">
             <label htmlFor="inputName" className="form-label">
-            Name
+              Name
             </label>
             <input
-            type="text"
-            className="form-control rounded-0"
-            id="inputName"
-            placeholder="Enter Name"
-            onChange={(e) =>
-                setClient({ ...client, name: e.target.value })
-            }
+              type="text"
+              className="form-control rounded-0"
+              id="inputName"
+              placeholder="Enter Name"
+              onChange={(e) => setClient({ ...client, name: e.target.value })}
             />
-        </div>
-        <div className="col-12">
+          </div>
+          <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">
-            Username
+              Username
             </label>
             <input
-            type="username"
-            className="form-control rounded-0"
-            id="inputUsername"
-            placeholder="Enter Username"
-            autoComplete="off"
-            onChange={(e) =>
+              type="username"
+              className="form-control rounded-0"
+              id="inputUsername"
+              placeholder="Enter Username"
+              autoComplete="off"
+              onChange={(e) =>
                 setClient({ ...client, username: e.target.value })
-            }
+              }
             />
-        </div>
-        <div className="col-12">
+          </div>
+          <div className="col-12">
             <label htmlFor="inputEmail4" className="form-label">
-            Email
+              Email
             </label>
             <input
-            type="email"
-            className="form-control rounded-0"
-            id="inputEmail4"
-            placeholder="Enter Email"
-            autoComplete="off"
-            onChange={(e) =>
-                setClient({ ...client, email: e.target.value })
-            }
+              type="email"
+              className="form-control rounded-0"
+              id="inputEmail4"
+              placeholder="Enter Email"
+              autoComplete="off"
+              onChange={(e) => setClient({ ...client, email: e.target.value })}
             />
-        </div>
-<div className="col-12">
+          </div>
+          <div className="col-12">
             <label htmlFor="inputPassword4" className="form-label">
               Password
             </label>
@@ -117,29 +113,29 @@ const AddClient = () => {
                 setClient({ ...client, password: e.target.value })
               }
             />
-            </div>
-            <div className="col-12">
-  <label htmlFor="inputPhoneNumber" className="form-label">
-    Phone Number
-  </label>
-  <input
-    type="tel"
-    className="form-control rounded-0"
-    id="inputPhoneNumber"
-    placeholder="Enter Phone Number"
-    autoComplete="off"
-    onChange={(e) => setClient({ ...client, phone: e.target.value })}
-  />
-</div>
-
-        <div className="col-12">
-            <label htmlFor="inputAddress" className="form-label">
-            Company Name
+          </div>
+          <div className="col-12">
+            <label htmlFor="inputPhoneNumber" className="form-label">
+              Phone Number
             </label>
             <input
-            type="text"
-            className="form-control rounded-0"
-            id="inputCompanyName"
+              type="tel"
+              className="form-control rounded-0"
+              id="inputPhoneNumber"
+              placeholder="Enter Phone Number"
+              autoComplete="off"
+              onChange={(e) => setClient({ ...client, phone: e.target.value })}
+            />
+          </div>
+
+          <div className="col-12">
+            <label htmlFor="inputAddress" className="form-label">
+              Company Name
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputCompanyName"
               placeholder="Enter Company Name"
               autoComplete="off"
               onChange={(e) =>
@@ -149,10 +145,16 @@ const AddClient = () => {
           </div>
           <div className="col-12">
             <label htmlFor="department" className="form-label">
-            Department
+              Department
             </label>
-            <select name="department" id="department" className="form-select"
-                onChange={(e) => setClient({...client, department_id: e.target.value})}>
+            <select
+              name="department"
+              id="department"
+              className="form-select"
+              onChange={(e) =>
+                setClient({ ...client, department_id: e.target.value })
+              }
+            >
               {department.map((d) => {
                 return <option value={d.id}>{d.name}</option>;
               })}

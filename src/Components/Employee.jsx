@@ -76,7 +76,9 @@ const Employee = () => {
   useEffect(() => {
     axios
       .get("http://localhost:3000/auth/employee")
+
       .then((result) => {
+        console.log(result);
         if (result.data.Status) {
           setEmployee(
             result.data.Result.map((row) => ({
@@ -89,6 +91,7 @@ const Employee = () => {
                   style={{ width: "50px", height: "50px" }}
                 />
               ),
+
               editButton: (
                 <button
                   className="btn btn-danger"
@@ -109,13 +112,13 @@ const Employee = () => {
               ),
             }))
           );
+          console.log(employee);
         } else {
           alert(result.data.Error);
         }
       })
       .catch((err) => console.log(err));
-  }, [employee]);
-
+  }, []);
   const data = {
     columns: [
       {
@@ -126,7 +129,7 @@ const Employee = () => {
       },
       {
         label: "Client Name",
-        field: "name",
+        field: "client_name",
         sort: "asc",
         width: 150,
       },
@@ -168,7 +171,6 @@ const Employee = () => {
         label: "Delete",
         field: "deleteButton",
       },
-
     ],
     rows: filteredEmployees,
   };
