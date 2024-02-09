@@ -20,8 +20,9 @@ const Client = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3000/auth/delete_client/${id}`)
-      .then(result => {
+    axios
+      .delete(`http://localhost:3000/auth/delete_client/${id}`)
+      .then((result) => {
         if (result.data.Status) {
           // Reload the page or update the state to trigger a re-render
           window.location.reload();
@@ -29,7 +30,7 @@ const Client = () => {
           alert(result.data.Error);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         // Handle error appropriately
       });
@@ -50,8 +51,8 @@ const Client = () => {
               <tr>
                 <th>Name</th>
                 <th>Username</th>
-                 <th>Email</th>
-                 <th>Phone</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Company Name</th>
                 <th>Action</th>
               </tr>
@@ -59,7 +60,7 @@ const Client = () => {
             <tbody>
               {client.map((c) => (
                 <tr key={c.id}>
-                  <td>{c.name}</td>
+                  <td>{c.client_name}</td>
                   <td>{c.username}</td>
                   <td>{c.email}</td>
                   <td>{c.phone}</td>

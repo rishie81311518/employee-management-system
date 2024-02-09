@@ -3,35 +3,36 @@ import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { useParams } from "react-router-dom";
 
-const Profile = () => {
+const ClientProfile = () => {
   const { id } = useParams();
   console.log(id);
-  const [employee, setEmployee] = useState({});
+  const [client, setClients] = useState([]);
 
   useEffect(() => {
-    const fetchEmployee = async () => {
+    const fetchClients = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/auth/employee/${id}`
+          `http://localhost:3000/auth/client/${id}`
         );
         if (response.data.Status) {
-          setEmployee(response.data.Result);
+          setClients(response.data.Result);
           console.log(response.data.Result);
+          console.log(client);
         } else {
           alert(response.data.Error);
         }
       } catch (error) {
-        console.error("Error fetching employee:", error);
-        alert("An error occurred while fetching employee data.");
+        console.error("Error fetching client:", error);
+        alert("An error occurred while fetching client data.");
       }
     };
 
-    fetchEmployee();
+    fetchClients();
   }, [id]);
 
   return (
     <>
-      <h2>Employee Profile Details</h2>
+      <h2>Client Profile Details</h2>
       <Card
         style={{
           width: "18rem",
@@ -42,32 +43,29 @@ const Profile = () => {
         }}
       >
         <Card.Body>
-          {Object.keys(employee).length > 0 ? (
+          {Object.keys(client).length > 0 ? (
             <>
               <Card.Text style={{ fontSize: "16px" }}>
-                Name: {employee.employee_name}
+                Name: {client.client_name}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
-                Email: {employee.email}
+                Username: {client.username}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
-                Salary: {employee.salary}
+                Email: {client.email}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
-                Address: {employee.address}
+                Phone: {client.phone}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
-                Client Name: {employee.client_name}
+                Company Name: {client.company_name}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
-                Category: {employee.category_name}
-              </Card.Text>
-              <Card.Text style={{ fontSize: "16px" }}>
-                Work Mode: {employee.work_mode}
+                Department Name: {client.department_name}
               </Card.Text>
             </>
           ) : (
-            <Card.Text>No employee data available.</Card.Text>
+            <Card.Text>No client data available.</Card.Text>
           )}
         </Card.Body>
       </Card>
@@ -75,4 +73,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ClientProfile;

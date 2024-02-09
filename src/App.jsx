@@ -6,16 +6,19 @@ import AddClient from "./Components/AddClient";
 import AddDepartment from "./Components/AddDepartment";
 import AddDesignation from "./Components/AddDesignation";
 import AddEmployee from "./Components/AddEmployee";
+import AllClients from "./Components/AllClients";
 import AllEmployees from "./Components/AllEmployees";
 import Category from "./Components/Category";
 import Client from "./Components/Client";
 import CreateEstimate from "./Components/CreateEstimate";
 import Dashboard from "./Components/Dashboard";
+import DataTable from "./Components/DataTable";
 import Department from "./Components/Department";
 import Designation from "./Components/Designation";
 import EditClient from "./Components/EditClient";
 import EditEmployee from "./Components/EditEmployee";
 import Employee from "./Components/Employee";
+import EmployeeCard from "./Components/EmployeeCard";
 import EmployeeLeaves from "./Components/EmployeeLeaves";
 import Holidays from "./Components/Holidays";
 import Home from "./Components/Home";
@@ -24,9 +27,7 @@ import Leaves from "./Components/Leaves";
 import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import Project from "./Components/Project";
-import DataTable from "./Components/DataTable";
-import EmployeeCard from "./Components/EmployeeCard";
-import AllClients from "./Components/AllClients";
+import ClientProfile from "./Components/ClientProfile";
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
         <Route path="/datatable" element={<DataTable />}></Route>
         <Route path="/employeecard" element={<EmployeeCard />}></Route>
         <Route path="/dashboard/allclients" element={<AllClients />}></Route>
+        <Route path="/dashboard/clientprofile/:id" element={<ClientProfile />}></Route>
       </Routes>
     </BrowserRouter>
   );

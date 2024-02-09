@@ -61,9 +61,8 @@ const Dashboard = () => {
   }, []);
 
   const cardsData = [
-    // { title: "Projects", imageSrc: img1, content: " 112 " },
-    { title: "Clients", imageSrc: img2, content: " abedfegd " },
-    { title: "Employees", imageSrc: img4, content: "hsjjsjs" },
+    { title: "Clients", imageSrc: img2 },
+    { title: "Employees", imageSrc: img4 },
   ];
 
   const barChartData = {
@@ -285,6 +284,16 @@ const Dashboard = () => {
                   <span className="ms-2 d-none d-sm-inline">Clients</span>
                 </Link>
               </li>
+              <li className="w-100">
+                <Link
+                  to="/dashboard/allclients"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-person ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">All Clients</span>
+                </Link>
+              </li>
+
               <li className="w-100">
                 <Link
                   to="/dashboard/designation"

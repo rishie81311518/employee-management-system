@@ -1,11 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import img1 from "../assets/employee-rishie.jpeg";
 
@@ -34,10 +30,8 @@ const AllClients = () => {
   };
   const [clients, setClients] = useState([]);
 
-  const [selectedDesignation, setSelectedDesignation] = useState(null);
-
   useEffect(() => {
-    const fetchEmployees = async () => {
+    const fetchClients = async () => {
       try {
         const response = await axios.get("http://localhost:3000/auth/client");
         if (response.data.Status) {
@@ -51,50 +45,20 @@ const AllClients = () => {
       }
     };
 
-    fetchEmployees();
+    fetchClients();
   }, []);
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted!");
-  };
 
   return (
     <Container>
       <h2>All Clients</h2>
-      <div style={{ marginBottom: "20px" }}>
-        {/* Employee Search Form */}
-        <Form
-          onSubmit={handleFormSubmit}
-          style={{ display: "flex", gap: "10px" }}
-        >
-          <Form.Control type="text" placeholder="Enter Employee ID" />
-          <Form.Control type="text" placeholder="Enter Employee Name" />
-          <DropdownButton
-            id="designation"
-            title={selectedDesignation || "Select Designation"}
-            onSelect={(eventKey) => setSelectedDesignation(eventKey)}
-          >
-            <Dropdown.Item eventKey="App Developer">
-              App Developer
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="Web Developer">
-              Web Developer
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="Web Designer">Web Designer</Dropdown.Item>
-          </DropdownButton>
-          <Button type="submit">Search</Button>
-        </Form>
-      </div>
+      <div style={{ marginBottom: "20px" }}></div>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {clients.map((client) => (
-          <Link key={client.id} to={`/dashboard/profile/${client.id}`}>
+          <Link key={client.id} to={`/dashboard/clientprofile/${client.id}`}>
             <EmployeeCard
               id={client.id}
               imageSrc={img1}
-              name={client.name}
-              role={client.role}
+              name={client.client_name}
               onClick={navigateToProfile}
             />
           </Link>

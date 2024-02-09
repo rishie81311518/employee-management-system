@@ -262,8 +262,6 @@ router.post("/add_designation", upload.none(), (req, res) => {
 });
 
 router.get("/employee", (req, res) => {
-  // console.log(res.json({Status: true, Result: result}))
-  // const sql = "SELECT * FROM employee";
   con.query("CALL usp_getallEmployees()", (err, result) => {
     if (err) return res.json({ Status: false, Error: "Query Error " });
     return res.json({ Status: true, Result: result[0] });
@@ -279,10 +277,9 @@ router.get("/designation", (req, res) => {
 });
 
 router.get("/client", (req, res) => {
-  const sql = "SELECT * FROM client";
-  con.query(sql, (err, result) => {
+  con.query("CALL usp_getallClients()", (err, result) => {
     if (err) return res.json({ Status: false, Error: "Query Error " });
-    return res.json({ Status: true, Result: result });
+    return res.json({ Status: true, Result: result[0] });
   });
 });
 
@@ -307,49 +304,25 @@ router.get("/employee/:id", (req, res) => {
   });
 });
 
-// router.get("/employee/:id", (req, res) => {
-//   const employeeId = req.params.id;
-
-//   // Ensure employeeId is a valid number before querying the database
-//   if (isNaN(employeeId) || employeeId <= 0) {
-//     return res
-//       .status(400)
-//       .json({ status: false, error: "Invalid employee ID" });
-//   }
-
-//   const sql = "SELECT * FROM employee WHERE id = ?";
-
-//   con.query(sql, [employeeId], (err, result) => {
-//     if (err) {
-//       console.error("Error executing query", err);
-//       return res
-//         .status(500)
-//         .json({ status: false, error: "Query execution error" });
-//     }
-
-//     if (result.length === 0) {
-//       return res
-//         .status(404)
-//         .json({ status: false, error: "Employee not found" });
-//     }
-
-//     // Employee found, send the data as a JSON response
-//     return res.status(200).json({ status: true, result: result[0] });
-//   });
-// });
+router.get("/client/:id", (req, res) => {
+  const id = req.params.id;
+  con.query(`SELECT c.name AS client_name,
+  c.id,
+  c.username,
+  c.email,
+  c.phone,
+  c.company_name,
+  d.name AS department_name
+FROM client c 
+JOIN department d ON c.department_id = d.id where c.id=?;`,id, (err, result) => {
+    if (err) return res.json({ Status: false, Error: "Query Error " });
+    return res.json({ Status: true, Result: result[0] });
+  });
+});
 
 router.get("/designation/:id", (req, res) => {
   const id = req.params.id;
   const sql = "SELECT * FROM designation WHERE id = ?";
-  con.query(sql, [id], (err, result) => {
-    if (err) return res.json({ Status: false, Error: "Query Error" });
-    return res.json({ Status: true, Result: result });
-  });
-});
-
-router.get("/client/:id", (req, res) => {
-  const id = req.params.id;
-  const sql = "SELECT * FROM client WHERE id = ?";
   con.query(sql, [id], (err, result) => {
     if (err) return res.json({ Status: false, Error: "Query Error" });
     return res.json({ Status: true, Result: result });
