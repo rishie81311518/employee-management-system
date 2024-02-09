@@ -288,9 +288,10 @@ router.get("/client", (req, res) => {
 
 router.get("/employee/:id", (req, res) => {
   const id = req.params.id;
-  const sql = `SELECT e.name AS employee_name, e.email, e.salary, e.address, e.image, e.work_mode, c.name AS client_name
+  const sql = `SELECT e.name AS employee_name, e.category_id, cat.name AS category_name,e.email, e.salary, e.address, e.image, e.work_mode, c.name AS client_name
               FROM employee e
               JOIN client c ON e.client_id = c.id
+              JOIN category cat ON e.category_id = cat.id
               WHERE e.id = ?`;
   con.query(sql, id, (err, result) => {
     if (err) {

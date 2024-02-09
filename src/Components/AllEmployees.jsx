@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Form from "react-bootstrap/Form";
-import { Link,useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import img1 from "../assets/employee-rishie.jpeg";
 
 const EmployeeCard = ({ id, imageSrc, name, role, onClick }) => (
@@ -92,7 +92,7 @@ const AllEmployees = () => {
             <EmployeeCard
               id={employee.id}
               imageSrc={img1}
-              name={employee.name}
+              name={employee.employee_name}
               role={employee.role}
               onClick={navigateToProfile}
             />
@@ -104,5 +104,3 @@ const AllEmployees = () => {
 };
 
 export default AllEmployees;
-
-

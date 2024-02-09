@@ -87,14 +87,18 @@ import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const { id } = useParams();
+  console.log(id);
   const [employee, setEmployee] = useState({});
 
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/auth/employee/${id}`);
+        const response = await axios.get(
+          `http://localhost:3000/auth/employee/${id}`
+        );
         if (response.data.Status) {
           setEmployee(response.data.Result);
+          console.log(response.data.Result);
         } else {
           alert(response.data.Error);
         }
@@ -122,8 +126,8 @@ const Profile = () => {
         <Card.Body>
           {Object.keys(employee).length > 0 ? (
             <>
-              <Card.Text style={{ fontSize: "18px", fontWeight: "bold" }}>
-                Name: {employee.name}
+              <Card.Text style={{ fontSize: "16px" }}>
+                Name: {employee.employee_name}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
                 Email: {employee.email}
@@ -138,7 +142,7 @@ const Profile = () => {
                 Client Name: {employee.client_name}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
-                Category: {employee.category_id}
+                Category: {employee.category_name}
               </Card.Text>
               <Card.Text style={{ fontSize: "16px" }}>
                 Work Mode: {employee.work_mode}
@@ -154,4 +158,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
