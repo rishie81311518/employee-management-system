@@ -10,6 +10,7 @@ import AllClients from "./Components/AllClients";
 import AllEmployees from "./Components/AllEmployees";
 import Category from "./Components/Category";
 import Client from "./Components/Client";
+import ClientProfile from "./Components/ClientProfile";
 import CreateEstimate from "./Components/CreateEstimate";
 import Dashboard from "./Components/Dashboard";
 import DataTable from "./Components/DataTable";
@@ -27,11 +28,14 @@ import Leaves from "./Components/Leaves";
 import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import Project from "./Components/Project";
-import ClientProfile from "./Components/ClientProfile";
+import Header from "./Header/Header";
+import Sidebar from "./Components/Sidebar";
 
 function App() {
   return (
     <BrowserRouter>
+    <div className="app-container">
+      {/* <Sidebar/> */}
       <Routes>
         <Route path="/adminlogin" element={<Login />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
@@ -79,9 +83,15 @@ function App() {
         <Route path="/datatable" element={<DataTable />}></Route>
         <Route path="/employeecard" element={<EmployeeCard />}></Route>
         <Route path="/dashboard/allclients" element={<AllClients />}></Route>
-        <Route path="/dashboard/clientprofile/:id" element={<ClientProfile />}></Route>
+        <Route
+          path="/dashboard/clientprofile/:id"
+          element={<ClientProfile />}
+        ></Route>
+        <Route path="/dashboard/header" element={<Header />}></Route>
       </Routes>
+      </div>
     </BrowserRouter>
+    
   );
 }
 

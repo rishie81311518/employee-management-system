@@ -170,20 +170,6 @@ const Dashboard = () => {
     setRecentProjectsData(updatedProjectsData);
   };
 
-  // Handle Project Action (Details)
-  const handleProjectAction = (project, action) => {
-    // Implement your logic for project details here
-    console.log(`Viewing details for project ${project.action}`);
-  };
-
-  const [invoiceData, setInvoiceData] = useState({
-    invoiceId: "",
-    client: "",
-    dueDate: "",
-    total: "",
-    status: "",
-  });
-
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -351,10 +337,26 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="col p-0 m-0">
-          <div className="p-2 d-flex justify-content-center shadow">
-            <h4>Admin Dashboard </h4>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <div
+                className="p-2 d-flex justify-content-end align-items-center shadow"
+                style={{ backgroundColor: "orange" }}
+              >
+                <h4 className="mx-auto mb-0">Admin Dashboard</h4>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="border rounded p-1"
+                    style={{ width: "200px" }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
+
           <Outlet />
 
           {/* Cards Section */}

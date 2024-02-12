@@ -1,8 +1,10 @@
 import axios from "axios";
 import { MDBDataTable } from "mdbreact";
+
 import React, { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../Header/Header";
 
 const Employee = () => {
   const [employee, setEmployee] = useState([]);
@@ -176,35 +178,45 @@ const Employee = () => {
   };
 
   return (
-    <div className="px-5 mt-3">
-      <div className="d-flex justify-content-center">
-        <h3>Employee List</h3>
-      </div>
-      <Link to="/dashboard/add_employee" className="btn btn-success">
-        Add Employee
-      </Link>
-      <div className="col-md-4 mb-3">
-        <label htmlFor="status" className="form-label">
-          Work Mode
-        </label>
-        <Dropdown onSelect={handleDropdownSelect}>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {selectedStatus || "Select Status"}
-          </Dropdown.Toggle>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-12">
+          <div className="px-5 mt-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <Header />
+              <h3>Employee List</h3>
+            </div>
+            <Link to="/dashboard/add_employee" className="btn btn-success">
+              Add Employee
+            </Link>
+            <div className="col-md-4 mb-3">
+              <label htmlFor="status" className="form-label">
+                Work Mode
+              </label>
+              <Dropdown onSelect={handleDropdownSelect}>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  {selectedStatus || "Select Status"}
+                </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item eventKey="Hybrid">Hybrid</Dropdown.Item>
-            <Dropdown.Item eventKey="Work From Home">
-              Work From Home
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="Remote Location">
-              Remote Location
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+                <Dropdown.Menu>
+                  <Dropdown.Item eventKey="Hybrid">Hybrid</Dropdown.Item>
+                  <Dropdown.Item eventKey="Work From Home">
+                    Work From Home
+                  </Dropdown.Item>
+                  <Dropdown.Item eventKey="Remote Location">
+                    Remote Location
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <MDBDataTable striped bordered small data={data} sorting="false" />
+      <div className="row justify-content-center">
+        <div className="col-5">
+          <MDBDataTable striped bordered small data={data} sorting="false" />
+        </div>
+      </div>
     </div>
   );
 };
